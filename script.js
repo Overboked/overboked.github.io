@@ -1,24 +1,36 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.124.0/build/three.module.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/loaders/GLTFLoader.js';
+// Функция для создания сцены
+const createScene = function (canvas, modelUrl) {
+    const engine = new BABYLON.Engine(canvas, true);
+    const scene = new BABYLON.Scene(engine);
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, 400);
-document.getElementById('model-container').appendChild(renderer.domElement);
+    const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2, 2, BABYLON.Vector3.Zero(), scene);
+    camera.attachControl(canvas, true);
 
-const loader = new GLTFLoader();
-loader.load('models/model1.glb', function(gltf) {
-    scene.add(gltf.scene);
-}, undefined, function(error) {
-    console.error(error);
-});
+    // Настройка чувствительности колесика мыши
+    camera.wheelDeltaPercentage = 0.01; // Уменьшите это значение для снижения чувствительности
 
-camera.position.z = 5;
+    // Предотвращение прокрутки страницы при взаимодействии с моделью
+    canvas.addEventListener("wheel", function(event) {
+        event.preventDefault(); // Предотвращает прокрутку страницы
+    });
 
-function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-}
+    const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0), scene);
+    light.intensity = 0.7;
 
-animate();
+    BABYLON.SceneLoader.Append("", modelUrl, scene, function (scene) {
+        // Действия после загрузки модели
+    }, null, ".glb");
+
+    engine.runRenderLoop(function () {
+        scene.render();
+    });
+
+    window.addEventListener("resize", function () {
+        engine.resize();
+    });
+};
+
+// Инициализация сцен для каждой модели
+createScene(document.getElementById("renderCanvas1"), "models/model1.glb");
+createScene(document.getElementById("renderCanvas2"), "models/model2.glb");
+createScene(document.getElementById("renderCanvas3"), "models/model3.glb");

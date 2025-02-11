@@ -13,7 +13,11 @@
     <main>
         <section id="3d-models">
             <h2>3D Модели</h2>
-            <div id="model-container"></div>
+            <div class="model-container">
+                <canvas id="renderCanvas1" class="model-frame" touch-action="none"></canvas>
+                <canvas id="renderCanvas2" class="model-frame" touch-action="none"></canvas>
+                <canvas id="renderCanvas3" class="model-frame" touch-action="none"></canvas>
+            </div>
         </section>
         <section id="renders">
             <h2>Рендеры</h2>
@@ -27,6 +31,9 @@
             </video>
         </section>
     </main>
+    <!-- Подключение Babylon.js через CDN -->
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylon.glTF2FileLoader.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
