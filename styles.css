@@ -2,57 +2,88 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 1rem 0;
+    background: linear-gradient(to right, #9de8ff, #2575fc); /* Example gradient */
+    color: white; /* Ensure text is visible */
     text-align: center;
-    box-shadow: 0 4px 2px -2px gray;
+    padding: 20px; /* Adjust as needed */
+    width: 100%;
+    
 }
 
+.social-icons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.social-icons a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.social-icons a:hover {
+    color: #ffafbd; /* Example hover color */
+}
+
+
 main {
+    width: 100%;
+    max-width: 1200px;
     padding: 2rem;
 }
 
-section {
-    margin-bottom: 3rem;
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.column {
+    flex: 1;
 }
 
 h2 {
     color: #555;
     border-bottom: 2px solid #ddd;
     padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-.model-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+.media-item {
+    margin-bottom: 1rem;
 }
 
-.model-frame {
-    width: 30%;
-    height: 400px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 1rem;
-}
-
-img {
+.media-item img,
+.media-item video {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
 }
 
-video {
+.model-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.model-frame {
     width: 100%;
-    border-radius: 8px;
+    height: 500px;
+    background-color: transparent;
+    border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
 }

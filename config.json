@@ -1,0 +1,9 @@
+{
+    "models": [
+        "models/yellow_sofa.glb",
+        "models/Nike_shoe_airmax.glb",
+        "models/DogBasket.glb"
+    ],
+    "hdriTexture": "meta/hdri.hdr"
+}
+    
