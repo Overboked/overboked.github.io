@@ -1,89 +1,131 @@
-body {
-    font-family: 'Roboto', sans-serif;
+body, html {
     margin: 0;
     padding: 0;
-    background-color: #ffffff;
-    color: #333;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    overflow-y: auto; /* Включаем вертикальную прокрутку */
+}
+
+.blurred-bar {
+    width: 100%;
+    height: 80px;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 50% 50%;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    z-index: 10;
 }
 
-header {
-    background: linear-gradient(to right, #9de8ff, #2575fc); /* Example gradient */
-    color: white; /* Ensure text is visible */
-    text-align: center;
-    padding: 20px; /* Adjust as needed */
-    width: 100%;
-    
-}
-
-.social-icons {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 10px;
-}
-
-.social-icons a {
-    color: rgb(0, 0, 0);
-    text-decoration: none;
+.blurred-bar a {
+    color: rgb(24, 24, 24);
+    margin: 0 15px;
     font-size: 24px;
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
-.social-icons a:hover {
-    color: #ffafbd; /* Example hover color */
+.blurred-bar a:hover {
+    color: #ffd700;
 }
 
-
-main {
+.main-content {
+    position: relative;
     width: 100%;
-    max-width: 1200px;
-    padding: 2rem;
-}
-
-.content-container {
     display: flex;
-    justify-content: space-between;
-    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 50px 0;
+    min-height: 100vh; /* Минимальная высота для первой секции */
 }
 
-.column {
-    flex: 1;
+.text-overlay {
+    font-size: 3em;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    text-align: left; /* Выравнивание текста по левой стороне */
+    width: 100%; /* Убедитесь, что текст занимает всю ширину контейнера */
+    box-sizing: border-box; /* Учитываем отступы и границы в ширине */
+    padding-left: 100px; /* Отступ слева для текста */
 }
 
-h2 {
-    color: #555;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
+
+
+.subtitle {
+    font-size: 1.2em; /* Размер текста */
+    color: #ffffff; /* Цвет текста */
+    margin-top: 0px; /* Отступ сверху */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Тень текста */
 }
 
-.media-item {
-    margin-bottom: 1rem;
+#model-container {
+    flex: 1; /* Занимает доступное пространство */
+    max-width: 1000px; /* Увеличиваем максимальную ширину */
+    height: auto; /* Высота подстраивается под содержимое */
+    margin-left: 20%; /* Сдвигает модель вправо */
+    margin-top: -400px; /* Сдвигает модель вверх на 50 пикселей */
 }
 
-.media-item img,
-.media-item video {
-    max-width: 100%;
+
+
+
+
+.additional-content {
+    padding: 20px;
+    text-align: center;
+    min-height: 600px; /* Установите высоту, равную высоте изображения */
+    font-size: 3em;
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    text-align: left; /* Выравнивание текста по левой стороне */
+    width: 100%; /* Убедитесь, что текст занимает всю ширину контейнера */
+    box-sizing: border-box; /* Учитываем отступы и границы в ширине */
+    padding-left: 100px; /* Отступ слева для текста */
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 4px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.image-item img {
+    width: 100%;
     height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    transition: transform 0.1s;
 }
 
-.model-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+.image-item img:hover {
+    transform: scale(2.05);
 }
 
-.model-frame {
-    width: 100%;
-    height: 500px;
-    background-color: transparent;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
+.background-section {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#background-section-0 {
+    background-image: url('images/render2.jpg');
+}
+
+#background-section-1 {
+    background-image: url('images/render1.jpg');
+}
+
+#background-section-2 {
+    background-image: url('images/render2.jpg');
 }
