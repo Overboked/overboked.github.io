@@ -1,7 +1,7 @@
 // Set up the scene, camera, and renderer
 const scene = new THREE.Scene();
 //const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ alpha: true });
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 renderer.setSize(1400, 900); // Фиксированные размеры рендерера
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.outputEncoding = THREE.sRGBEncoding;
@@ -32,6 +32,8 @@ hdriLoader.load('textures/hdri.hdr', function(texture) {
     pmremGenerator.dispose();
     texture.dispose();
 
+
+    
     scene.environment = envMap;
 });
 
@@ -80,9 +82,6 @@ loader.load('models/main.glb', function(gltf) {
     animate();
 });
 
-
-
-
 // Обновляем соотношение сторон камеры при изменении размера окна
 window.addEventListener('resize', function() {
     const width = window.innerWidth;
@@ -98,20 +97,161 @@ const height = window.innerHeight;
 camera.aspect = width / height;
 camera.updateProjectionMatrix();
 
-// Функция для добавления изображений в сетку
-function addImagesToGrid(numberOfImages) {
-    const imageGrid = document.getElementById('image-grid');
-    for (let i = 1; i <= numberOfImages; i++) {
-        const imgElement = document.createElement('div');
-        imgElement.classList.add('image-item');
-        imgElement.innerHTML = `<img src="renders/render (${i}).png" alt="Render ${i}">`;
-        imageGrid.appendChild(imgElement);
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const buttons = document.querySelectorAll('.category-button');
+    const curve = document.querySelector('.curve');
+    const carousel = document.getElementById('carousel');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalSoftware = document.getElementById('modalSoftware');
+    const modalAdditionalImages = document.getElementById('modalAdditionalImages');
+    const closeModal = document.querySelector('.close');
+
+    const content = {
+        art: Array.from({ length: 10 }, (_, i) => `images/art/art${i + 1}.webp`),
+        interiors: Array.from({ length: 9 }, (_, i) => `images/interiors/interior${i + 1}.webp`),
+        videos: Array.from({ length: 5 }, (_, i) => `videos/video${i + 1}.mp4`),
+        vfx: Array.from({ length: 4 }, (_, i) => `videos/vfx/vfx${i + 1}.mp4`)
+    };
+
+    const imageData = {
+        'art1.webp': {
+            title: 'Happy days #5',
+            description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+            software: 'Cinema 4D, Photoshop',
+            additionalImages: ['icons/Cinema4D.webp', 'icons/Photoshop.webp']
+        },
+        'interior1.webp': {
+            title: 'Interior Project 1',
+            description: 'Description of Interior Project 1.',
+            software: 'SketchUp, V-Ray',
+            additionalImages: ['interiors/additional3.jpg', 'interiors/additional4.jpg']
+        }
+        
+        // Добавьте данные для остальных изображений
+    };
+
+    sidebarToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('active');
+    });
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            buttons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            const category = this.getAttribute('data-category');
+            const rect = button.getBoundingClientRect();
+            const offsetLeft = rect.left + window.scrollX - curve.parentElement.getBoundingClientRect().left;
+            const buttonWidth = rect.width;
+
+            // Устанавливаем позицию круга по центру кнопки
+            curve.style.transform = `translateX(${offsetLeft + buttonWidth / 2 - 50}px)`;
+
+            carousel.classList.add('fade-out');
+            setTimeout(() => {
+                updateCarousel(category);
+                carousel.classList.remove('fade-out');
+            }, 300); // Время должно совпадать с длительностью анимации
+        });
+    });
+
+    function updateCarousel(category) {
+        carousel.innerHTML = '';
+        content[category].forEach(media => {
+            const mediaElement = document.createElement(media.endsWith('.mp4') ? 'video' : 'img');
+            mediaElement.src = `${media}`;
+            mediaElement.alt = category;
+            if (media.endsWith('.mp4')) {
+                mediaElement.controls = true;
+            }
+            mediaElement.addEventListener('click', openImageModal);
+            carousel.appendChild(mediaElement);
+        });
     }
-}
 
-// Укажите количество изображений, которые нужно добавить
-const numberOfImages = 9; // Измените это значение на нужное количество изображений
-addImagesToGrid(numberOfImages);
+    
 
+    function openImageModal(event) {
+        const target = event.target;
+        const mediaSrc = target.src;
+        const mediaName = mediaSrc.split('/').pop();
+        const data = imageData[mediaName];
+    
+        // Удаляем текущий элемент контента в модальном окне
+        const existingContent = modalImage.firstChild;
+        if (existingContent) {
+            existingContent.remove();
+        }
+    
+        if (target.tagName === 'VIDEO') {
+            // Если это видео, создаем элемент video
+            const video = document.createElement('video');
+            video.src = mediaSrc;
+            video.controls = true;
+            video.classList.add('modal-content-media');
+            modalImage.appendChild(video);
+        } else {
+            // Если это изображение, создаем элемент img
+            const img = document.createElement('img');
+            img.src = mediaSrc;
+            img.classList.add('modal-content-media');
+            modalImage.appendChild(img);
+        }
+    
+        if (data) {
+            modalTitle.textContent = data.title;
+            modalDescription.textContent = data.description;
+            modalSoftware.textContent = data.software;
+    
+            // Очищаем и добавляем дополнительные изображения
+            modalAdditionalImages.innerHTML = '';
+            if (data.additionalImages) {
+                data.additionalImages.forEach(imgSrc => {
+                    const img = document.createElement('img');
+                    img.src = `images/${imgSrc}`;
+                    modalAdditionalImages.appendChild(img);
+                });
+            }
+        } else {
+            modalTitle.textContent = '';
+            modalDescription.textContent = '';
+            modalSoftware.textContent = '';
+            modalAdditionalImages.innerHTML = '';
+        }
+    
+        modalOverlay.classList.add('active');
+        modal.classList.add('active');
+    }
+    
+    
+    
+    
+    
+    
+    
 
+    closeModal.addEventListener('click', function() {
+        modalOverlay.classList.remove('active');
+        modal.classList.remove('active');
+    });
 
+    window.addEventListener('click', function(event) {
+        if (event.target === modalOverlay) {
+            modalOverlay.classList.remove('active');
+            modal.classList.remove('active');
+        }
+    });
+
+    // Инициализация карусели с первой категорией
+    updateCarousel('art');
+
+    
+});

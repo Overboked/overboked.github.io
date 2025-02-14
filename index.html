@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <div class="sidebar-toggle" id="sidebarToggle">
+        &#9776; <!-- Символ "бургер" меню -->
+    </div>
+    <div class="sidebar" id="sidebar">
+        <a href="index.html" class="sidebar-link">Главная</a>
+        <a href="about.html" class="sidebar-link">О нас</a>
+        <a href="services.html" class="sidebar-link">Услуги</a>
+        <a href="contact.html" class="sidebar-link">Контакты</a>
+    </div>
     <div class="blurred-bar">
         <a href="https://www.instagram.com/overboked/" target="_blank"><i class="fab fa-instagram"></i></a>
         <a href="https://www.linkedin.com/in/overboked/" target="_blank"><i class="fab fa-linkedin"></i></a>
@@ -25,8 +34,28 @@
         </div>
         <div class="divider"></div>
         <div class="additional-content background-section" id="background-section-1">
-            <h2>Interior projects</h2>
-            <div class="image-grid" id="image-grid"></div>
+            <div class="category-buttons">
+                <div class="curve"></div>
+                <button class="category-button active" data-category="art">Art</button>
+                <button class="category-button" data-category="interiors">Interiors</button>
+                <button class="category-button" data-category="videos">Videos</button>
+                <button class="category-button" data-category="vfx">VFX</button>
+            </div>
+            <div id="modalOverlay" class="modal-overlay">
+                <div id="modal" class="modal">
+                    <span class="close">&times;</span>
+                    <div><class="modal-content" id="modalImage"></div> 
+                    <div class="modal-info">
+                        <h2 id="modalTitle"></h2>
+                        <p id="modalDescription"></p>
+                        <p><strong>Program used:</strong> <span id="modalSoftware"></span></p>
+                        <div id="modalAdditionalImages" class="additional-images"></div>
+                    </div>
+                </div>
+            </div>                  
+            <div class="carousel" id="carousel">
+                <!-- Контент будет загружаться сюда -->
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
@@ -35,6 +64,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/pmrem/PMREMGenerator.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/pmrem/PMREMCubeUVPacker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -3,8 +3,66 @@ body, html {
     padding: 0;
     width: 100%;
     height: 100%;
-    font-family: Arial, sans-serif;
-    overflow-y: auto; /* Включаем вертикальную прокрутку */
+    font-family: 'Arial', sans-serif;
+    overflow-y: auto;
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.sidebar-toggle {
+    position: fixed;
+    top: 0px;
+    left: 2%;
+    font-size: 1.7em;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s;
+}
+
+.sidebar-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Начальное положение за экраном */
+    width: 250px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    transition: left 0.3s ease;
+    z-index: 999;
+}
+
+.sidebar.active {
+    left: 0; /* Показывает боковую панель */
+}
+
+.sidebar-link {
+    display: block;
+    padding: 15px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.content-wrapper {
+    position: relative;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.content-wrapper.shifted {
+    transform: translateX(250px); /* Сдвигаем контент вправо на ширину боковой панели */
 }
 
 .blurred-bar {
@@ -43,28 +101,25 @@ body, html {
     align-items: center;
     flex-direction: column;
     text-align: center;
-    padding: 50px 0;
-    min-height: 100vh; /* Минимальная высота для первой секции */
+    padding: 50px 20px;
+    min-height: 100vh;
 }
 
 .text-overlay {
     font-size: 3em;
-    color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     z-index: 1;
-    text-align: left; /* Выравнивание текста по левой стороне */
-    width: 100%; /* Убедитесь, что текст занимает всю ширину контейнера */
-    box-sizing: border-box; /* Учитываем отступы и границы в ширине */
-    padding-left: 100px; /* Отступ слева для текста */
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 20px;
+    margin-bottom: 20px;
 }
 
-
-
 .subtitle {
-    font-size: 1.2em; /* Размер текста */
-    color: #ffffff; /* Цвет текста */
-    margin-top: 0px; /* Отступ сверху */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Тень текста */
+    font-size: 1.2em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
 }
 
 #model-container {
@@ -75,57 +130,199 @@ body, html {
     margin-top: -400px; /* Сдвигает модель вверх на 50 пикселей */
 }
 
-
-
-
-
 .additional-content {
     padding: 20px;
     text-align: center;
-    min-height: 600px; /* Установите высоту, равную высоте изображения */
-    font-size: 3em;
-    color: rgb(255, 255, 255);
+    min-height: 600px;
+    font-size: 1.5em;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     z-index: 1;
-    text-align: left; /* Выравнивание текста по левой стороне */
-    width: 100%; /* Убедитесь, что текст занимает всю ширину контейнера */
-    box-sizing: border-box; /* Учитываем отступы и границы в ширине */
-    padding-left: 100px; /* Отступ слева для текста */
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 20px;
 }
 
-.image-grid {
+.category-buttons {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 10px 0;
+}
+
+.curve {
+    position: absolute;
+    bottom: 8px; /* Положение круга относительно нижней границы контейнера */
+    left: 0;
+    width: 100px; /* Размер круга */
+    height: 1px; /* Размер круга */
+    background: rgb(0, 0, 0);
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+}
+
+.category-button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    color: rgb(0, 0, 0);
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.category-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.category-button.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-5px);
+}
+
+.carousel {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 4px;
-    padding: 20px;
-    margin-top: 20px;
+    grid-template-columns: repeat(6, 1fr); /* 6 колонок в строке */
+    gap: 0.5%; /* Отступы в процентах */
+    justify-content: center; /* Центрируем содержимое по горизонтали */
+    align-content: start; /* Выравниваем строки по верхнему краю */
+    min-height: 600px;
+    transition: opacity 0.3s ease;
 }
 
-.image-item img {
+.carousel img, .carousel video {
     width: 100%;
     height: auto;
-    border-radius: 20px;
-    transition: transform 0.1s;
+    border-radius: 10px;
+    transition: transform 0.3s;
+    object-fit: contain; /* Масштабирует изображение, сохраняя пропорции */
 }
 
-.image-item img:hover {
-    transform: scale(2.05);
+.carousel img:hover, .carousel video:hover {
+    transform: scale(1.1);
 }
 
 .background-section {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 #background-section-0 {
-    background-image: url('images/render2.jpg');
+    background-image: url('images/lending.webp');
 }
 
 #background-section-1 {
-    background-image: url('images/render1.jpg');
+    background-image: url('images/white.webp');
 }
 
 #background-section-2 {
     background-image: url('images/render2.jpg');
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0); /* Начальное состояние */
+    width: 100%; /* Ширина модального окна */
+    max-width: 1000px; /* Максимальная ширина */
+    height: 90%; /* Высота модального окна */
+    max-height: 800px; /* Максимальная высота */
+    background: linear-gradient(0deg, #d8e6ff, #ffffff);
+    border-radius: 15px;
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    overflow: hidden; /* Скрываем переполнение */
+}
+
+.modal.active {
+    display: flex;
+    transform: translate(-50%, -50%) scale(1); /* Конечное состояние */
+    opacity: 1;
+    object-fit: cover; /* Масштабирует изображение, сохраняя пропорции */
+}
+
+#modalImage {
+    width: 100%; /* Заполняем всю ширину контейнера */
+    height: 100%; /* Заполняем всю высоту контейнера */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Скрываем переполнение */
+    
+}
+
+.modal-content-media {
+    width: auto; /* Ширина изображения */
+    height: 100%; /* Высота изображения */
+    object-fit: cover; /* Масштабирует изображение, заполняя пространство */
+    object-position: center; /* Центрирует изображение */
+}
+
+.modal-info {
+    width: 100%;
+    margin-top: 20px;
+    color: #000000;
+    text-align: left;
+    padding: 1%;
+}
+
+.additional-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 0px;
+    margin-top: 10px;
+}
+
+.additional-images img {
+    width: 50px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Полупрозрачный черный фон */
+    z-index: 999; /* Убедитесь, что слой находится позади модального окна */
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}
+
+.modal-overlay.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
 }
