@@ -1,257 +1,267 @@
-// Set up the scene, camera, and renderer
-const scene = new THREE.Scene();
-//const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-renderer.setSize(1400, 900); // Фиксированные размеры рендерера
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.outputEncoding = THREE.sRGBEncoding;
+// Бургер-меню
+const burger = document.getElementById('burger');
+const sidebar = document.getElementById('sidebar');
 
-const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+burger.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    burger.classList.toggle('active');
+});
 
-// Функция для изменения фокусного расстояния
-function setFocalLength(focalLength) {
-    const filmWidth = 36; // Стандартная ширина кадра для полнокадровой камеры (в мм)
-    const fov = 2 * Math.atan(filmWidth / (2 * focalLength)) * (180 / Math.PI);
-    camera.fov = fov;
-    camera.updateProjectionMatrix();
+// Функция для перемешивания массива (алгоритм Фишера-Йетса)
+function shuffleArray(array) {
+    const shuffled = [...array]; // Создаем копию массива
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
 }
 
-// Устанавливаем новое фокусное расстояние (например, 50 мм)
-setFocalLength(90);
+// Перемешиваем portfolioItems сразу при загрузке
+const shuffledPortfolioItems = shuffleArray(portfolioItems);
 
+// Генерация карусели
+const carousel = document.getElementById('carousel');
+function generateCarousel(items) {
+    const scrollPosition = window.scrollY; // Сохраняем текущую позицию прокрутки
+    carousel.innerHTML = '';
+    items.forEach(item => {
+        const div = document.createElement('div');
+        div.classList.add('carousel-item');
+        div.setAttribute('data-category', item.category);
 
-document.getElementById('model-container').appendChild(renderer.domElement);
+        if (item.type === 'image') {
+            const img = document.createElement('img');
+            img.src = item.src;
+            img.alt = item.title;
+            img.loading = 'lazy';
+            div.appendChild(img);
+        } else if (item.type === 'video') {
+            const video = document.createElement('video');
+            video.muted = true;
+            video.controls = true;
+            video.loading = 'lazy';
+            video.playsInline = true;
+            video.autoplay = true;
+            video.loop = true;
+            const source = document.createElement('source');
+            source.src = item.src;
+            source.type = 'video/webm';
+            const fallbackSource = document.createElement('source');
+            fallbackSource.src = item.src.replace('.webm', '.mp4');
+            fallbackSource.type = 'video/mp4';
+            video.appendChild(source);
+            video.appendChild(fallbackSource);
+            div.appendChild(video);
+        }
 
-// Load the HDR environment map
-const hdriLoader = new THREE.RGBELoader();
-const pmremGenerator = new THREE.PMREMGenerator(renderer);
-pmremGenerator.compileEquirectangularShader();
-
-hdriLoader.load('textures/hdri.hdr', function(texture) {
-    const envMap = pmremGenerator.fromEquirectangular(texture).texture;
-    pmremGenerator.dispose();
-    texture.dispose();
-
-
+        carousel.appendChild(div);
+    });
     
-    scene.environment = envMap;
+    // Восстанавливаем позицию прокрутки с помощью requestAnimationFrame для плавности
+    requestAnimationFrame(() => {
+        window.scrollTo({
+            top: scrollPosition,
+            behavior: 'auto' // Используем 'auto' для мгновенного восстановления (или 'smooth' для плавного)
+        });
+    });
+}
+
+// Инициализация карусели с перемешанными работами
+generateCarousel(shuffledPortfolioItems);
+
+// Фильтрация категорий
+const categoryButtons = document.querySelectorAll('.category-btn');
+categoryButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault(); // Предотвращаем стандартное поведение
+        categoryButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const category = button.getAttribute('data-category');
+        let filteredItems;
+
+        if (category === 'all') {
+            filteredItems = shuffleArray(shuffledPortfolioItems);
+        } else {
+            filteredItems = portfolioItems.filter(item => item.category === category);
+        }
+
+        generateCarousel(filteredItems);
+    });
 });
 
-// Load the GLTF model
-const loader = new THREE.GLTFLoader();
-loader.load('models/main.glb', function(gltf) {
-    const model = gltf.scene;
+// Модальное окно
+const modal = document.getElementById('modal');
+const modalImage = document.getElementById('modalImage');
+const modalVideo = document.getElementById('modalVideo');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const modalSoftware = document.getElementById('modalSoftware');
+const closeModal = document.getElementById('closeModal');
 
-    // Вычисляем центр модели
-    const box = new THREE.Box3().setFromObject(model);
-    const center = box.getCenter(new THREE.Vector3());
+carousel.addEventListener('click', (e) => {
+    const item = e.target.closest('.carousel-item');
+    if (!item) return;
 
-    // Перемещаем модель так, чтобы её центр совпадал с началом координат
-    model.position.sub(center);
+    const img = item.querySelector('img');
+    const video = item.querySelector('video');
+    const src = img ? img.src : (video ? video.querySelector('source').src : null);
 
-    // Проверяем и корректируем масштаб модели
-    const size = box.getSize(new THREE.Vector3());
-    const maxSize = Math.max(size.x, size.y, size.z);
-    const scaleFactor = 1.0 / maxSize; // Масштабируем модель так, чтобы она помещалась в единичный куб
-    model.scale.set(scaleFactor, scaleFactor, scaleFactor);
-
-    // Если модель сжата по оси X, корректируем масштаб
-    model.scale.x *= 1.25; // Увеличиваем масштаб по оси X на 25%
-
-    scene.add(model);
-
-    // Adjust camera position to fit the model
-    camera.position.set(1.5, 0.5, 2.5);
-
-    // Add orbit controls
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.01;
-    controls.enableZoom = false; // Отключаем зум
-    controls.enablePan = false;  // Отключаем перемещение камеры
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.2;
-    controls.target.set(0, 0, 0); // Устанавливаем центр вращения в начало координат
-
-    // Animation loop
-    function animate() {
-        requestAnimationFrame(animate);
-        controls.update();
-        renderer.render(scene, camera);
+    if (!src) {
+        console.error('Не удалось найти src для элемента:', item);
+        return;
     }
-    animate();
+
+    const relativeSrc = src.replace(window.location.origin + '/', '');
+    const portfolioItem = portfolioItems.find(p => p.src === relativeSrc);
+
+    if (!portfolioItem) {
+        console.error('Элемент не найден в portfolioItems:', relativeSrc);
+        modalTitle.textContent = 'Работа не найдена';
+        modalDesc.textContent = 'Информация отсутствует';
+        modalSoftware.textContent = '';
+        modalImage.style.display = 'block';
+        modalImage.src = src;
+        modalVideo.style.display = 'none';
+        modal.style.display = 'flex';
+        return;
+    }
+
+    modalImage.style.display = portfolioItem.type === 'image' ? 'block' : 'none';
+    modalVideo.style.display = portfolioItem.type === 'video' ? 'block' : 'none';
+
+    if (portfolioItem.type === 'video') {
+        modalVideo.src = portfolioItem.src;
+        modalVideo.muted = true;
+        modalVideo.controls = true;
+        modalVideo.playsInline = true;
+        modalVideo.play();
+    } else {
+        modalImage.src = portfolioItem.src;
+    }
+
+    modalTitle.textContent = portfolioItem.title;
+    modalDesc.textContent = portfolioItem.desc;
+    modalSoftware.textContent = `Сделано в: ${portfolioItem.software}`;
+    modal.style.display = 'flex';
 });
 
-// Обновляем соотношение сторон камеры при изменении размера окна
-window.addEventListener('resize', function() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+    modalVideo.pause();
+    modalVideo.src = '';
+});
+
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+        modalVideo.pause();
+        modalVideo.src = '';
+    }
+});
+
+// Three.js
+let model = null; // Глобальная переменная для модели
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('modelCanvas'), alpha: true });
+
+renderer.setSize(600, 400);
+scene.background = null;
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 5, 5).normalize();
+scene.add(directionalLight);
+
+const loader = new THREE.GLTFLoader();
+loader.load(
+    'models/main.glb', // Укажи реальный путь к файлу (замени на корректный)
+    (gltf) => {
+        model = gltf.scene;
+        scene.add(model);
+        console.log('Модель успешно загружена:', model);
+
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 5 / maxDim;
+        model.scale.set(scale, scale, scale);
+        model.position.sub(center.multiplyScalar(scale));
+        model.position.x += 2; // Смещение вправо
+        model.rotation.y = Math.PI / 4; // Начальный угол
+
+        // Настраиваем цветовые пространства для текстур
+        model.traverse((child) => {
+            if (child.isMesh && child.material) {
+                const material = child.material;
+                if (material.map) material.map.colorSpace = THREE.SRGBColorSpace;
+                if (material.normalMap) material.normalMap.colorSpace = THREE.NoColorSpace;
+                if (material.roughnessMap) material.roughnessMap.colorSpace = THREE.NoColorSpace;
+                if (material.metalnessMap) material.metalnessMap.colorSpace = THREE.NoColorSpace;
+                if (material.emissiveMap) material.emissiveMap.colorSpace = THREE.SRGBColorSpace;
+            }
+        });
+
+        camera.position.z = maxDim * 2;
+    },
+    (progress) => {
+        console.log('Прогресс загрузки модели:', progress.loaded / progress.total * 100 + '%');
+    },
+    (error) => {
+        console.error('Ошибка загрузки модели:', error);
+        // Если модель не загрузилась, показываем заглушку
+        const canvas = document.getElementById('modelCanvas');
+        if (canvas) {
+            canvas.style.background = '#333'; // Серый фон как заглушка
+            canvas.textContent = 'Модель не загружена. Проверь путь или файл.';
+        }
+    }
+);
+
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.enableZoom = false;
+controls.enablePan = false;
+controls.enableRotate = false;
+
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    
+    if (model) {
+        model.rotation.y += 0.01; // Вращение модели
+    }
+    
+    renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+    const width = document.querySelector('.hero-model').clientWidth;
+    const height = 400;
     renderer.setSize(width, height);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 });
 
-// Устанавливаем начальное соотношение сторон камеры
-const width = window.innerWidth*0.8;
-const height = window.innerHeight;
-camera.aspect = width / height;
-camera.updateProjectionMatrix();
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebar = document.getElementById('sidebar');
-    const buttons = document.querySelectorAll('.category-button');
-    const curve = document.querySelector('.curve');
-    const carousel = document.getElementById('carousel');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const modal = document.getElementById('modal');
-    const modalImage = document.getElementById('modalImage');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDescription = document.getElementById('modalDescription');
-    const modalSoftware = document.getElementById('modalSoftware');
-    const modalAdditionalImages = document.getElementById('modalAdditionalImages');
-    const closeModal = document.querySelector('.close');
-
-    const content = {
-        art: Array.from({ length: 10 }, (_, i) => `images/art/art${i + 1}.webp`),
-        interiors: Array.from({ length: 9 }, (_, i) => `images/interiors/interior${i + 1}.webp`),
-        videos: Array.from({ length: 5 }, (_, i) => `videos/video${i + 1}.mp4`),
-        vfx: Array.from({ length: 4 }, (_, i) => `videos/vfx/vfx${i + 1}.mp4`)
-    };
-
-    const imageData = {
-        'art1.webp': {
-            title: 'Happy days #5',
-            description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-            software: 'Cinema 4D, Photoshop',
-            additionalImages: ['icons/Cinema4D.webp', 'icons/Photoshop.webp']
-        },
-        'interior1.webp': {
-            title: 'Interior Project 1',
-            description: 'Description of Interior Project 1.',
-            software: 'SketchUp, V-Ray',
-            additionalImages: ['interiors/additional3.jpg', 'interiors/additional4.jpg']
-        }
-        
-        // Добавьте данные для остальных изображений
-    };
-
-    sidebarToggle.addEventListener('click', function() {
-        sidebar.classList.toggle('active');
-    });
-
-    buttons.forEach(button => {
-        button.addEventListener('click', function() {
-            buttons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-
-            const category = this.getAttribute('data-category');
-            const rect = button.getBoundingClientRect();
-            const offsetLeft = rect.left + window.scrollX - curve.parentElement.getBoundingClientRect().left;
-            const buttonWidth = rect.width;
-
-            // Устанавливаем позицию круга по центру кнопки
-            curve.style.transform = `translateX(${offsetLeft + buttonWidth / 2 - 50}px)`;
-
-            carousel.classList.add('fade-out');
-            setTimeout(() => {
-                updateCarousel(category);
-                carousel.classList.remove('fade-out');
-            }, 300); // Время должно совпадать с длительностью анимации
-        });
-    });
-
-    function updateCarousel(category) {
-        carousel.innerHTML = '';
-        content[category].forEach(media => {
-            const mediaElement = document.createElement(media.endsWith('.mp4') ? 'video' : 'img');
-            mediaElement.src = `${media}`;
-            mediaElement.alt = category;
-            if (media.endsWith('.mp4')) {
-                mediaElement.controls = true;
-            }
-            mediaElement.addEventListener('click', openImageModal);
-            carousel.appendChild(mediaElement);
-        });
-    }
-
-    
-
-    function openImageModal(event) {
-        const target = event.target;
-        const mediaSrc = target.src;
-        const mediaName = mediaSrc.split('/').pop();
-        const data = imageData[mediaName];
-    
-        // Удаляем текущий элемент контента в модальном окне
-        const existingContent = modalImage.firstChild;
-        if (existingContent) {
-            existingContent.remove();
-        }
-    
-        if (target.tagName === 'VIDEO') {
-            // Если это видео, создаем элемент video
-            const video = document.createElement('video');
-            video.src = mediaSrc;
-            video.controls = true;
-            video.classList.add('modal-content-media');
-            modalImage.appendChild(video);
-        } else {
-            // Если это изображение, создаем элемент img
-            const img = document.createElement('img');
-            img.src = mediaSrc;
-            img.classList.add('modal-content-media');
-            modalImage.appendChild(img);
-        }
-    
-        if (data) {
-            modalTitle.textContent = data.title;
-            modalDescription.textContent = data.description;
-            modalSoftware.textContent = data.software;
-    
-            // Очищаем и добавляем дополнительные изображения
-            modalAdditionalImages.innerHTML = '';
-            if (data.additionalImages) {
-                data.additionalImages.forEach(imgSrc => {
-                    const img = document.createElement('img');
-                    img.src = `images/${imgSrc}`;
-                    modalAdditionalImages.appendChild(img);
+document.addEventListener('DOMContentLoaded', () => {
+    const scrollToWorks = document.getElementById('scrollToWorks');
+    if (scrollToWorks) {
+        scrollToWorks.addEventListener('click', (e) => {
+            e.preventDefault(); // Предотвращаем стандартный переход
+            const target = document.getElementById('services');
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth', // Плавная прокрутка
+                    block: 'start' // Начинаем сверху секции
                 });
             }
-        } else {
-            modalTitle.textContent = '';
-            modalDescription.textContent = '';
-            modalSoftware.textContent = '';
-            modalAdditionalImages.innerHTML = '';
-        }
-    
-        modalOverlay.classList.add('active');
-        modal.classList.add('active');
+        });
     }
-    
-    
-    
-    
-    
-    
-    
-
-    closeModal.addEventListener('click', function() {
-        modalOverlay.classList.remove('active');
-        modal.classList.remove('active');
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target === modalOverlay) {
-            modalOverlay.classList.remove('active');
-            modal.classList.remove('active');
-        }
-    });
-
-    // Инициализация карусели с первой категорией
-    updateCarousel('art');
-
-    
 });

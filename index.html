@@ -1,70 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Designer Portfolio</title>
+    <title>IIL Workshop - 3D Portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="sidebar-toggle" id="sidebarToggle">
-        &#9776; <!-- Символ "бургер" меню -->
-    </div>
+    <!-- Боковая панель -->
     <div class="sidebar" id="sidebar">
-        <a href="index.html" class="sidebar-link">Главная</a>
-        <a href="about.html" class="sidebar-link">О нас</a>
-        <a href="services.html" class="sidebar-link">Услуги</a>
-        <a href="contact.html" class="sidebar-link">Контакты</a>
+        <ul>
+            <li><a href="#home">Главная</a></li>
+            <li><a href="#about">О нас</a></li>
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#contact">Контакты</a></li>
+        </ul>
     </div>
-    <div class="blurred-bar">
-        <a href="https://www.instagram.com/overboked/" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.linkedin.com/in/overboked/" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="https://www.youtube.com/@Overboked" target="_blank"><i class="fab fa-youtube"></i></a>
-        <a href="https://github.com/overboked" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://t.me/overboked" target="_blank"><i class="fab fa-telegram"></i></a>
+
+    <!-- Бургер-меню -->
+    <div class="burger" id="burger">
+        <i class="fas fa-bars"></i>
     </div>
-    <div class="content-wrapper">
-        <div class="main-content background-section" id="background-section-0">
-            <div class="text-overlay">
-                <h1>IIL WORKSHOP</h1>
-                <p class="subtitle">Hi, im 3D artist</p>
-            </div>
-            <div id="model-container"></div>
+
+    <!-- Размытый заголовок -->
+    <header class="blurred-bar">
+        <div class="social-icons">
+            <a href="https://www.instagram.com/overboked/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/overboked/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.youtube.com/@Overboked" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://github.com/Overboked" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://t.me/Overboked" target="_blank"><i class="fab fa-telegram"></i></a>
         </div>
-        <div class="divider"></div>
-        <div class="additional-content background-section" id="background-section-1">
-            <div class="category-buttons">
-                <div class="curve"></div>
-                <button class="category-button active" data-category="art">Art</button>
-                <button class="category-button" data-category="interiors">Interiors</button>
-                <button class="category-button" data-category="videos">Videos</button>
-                <button class="category-button" data-category="vfx">VFX</button>
-            </div>
-            <div id="modalOverlay" class="modal-overlay">
-                <div id="modal" class="modal">
-                    <span class="close">&times;</span>
-                    <div><class="modal-content" id="modalImage"></div> 
-                    <div class="modal-info">
-                        <h2 id="modalTitle"></h2>
-                        <p id="modalDescription"></p>
-                        <p><strong>Program used:</strong> <span id="modalSoftware"></span></p>
-                        <div id="modalAdditionalImages" class="additional-images"></div>
-                    </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>IIL WORKSHOP</h1>
+                    <p>Привет! Я 3D-художник с более чем 5 годами опыта в создании уникальных работ в области 3D-арт, интерьеров, видео и VFX. Использую Cinema 4D, Houdini и другие инструменты для воплощения идей в жизнь.</p>
+                    <p class="hero-quote">"Мир — это не то, что существует, а то, что мы создаём, чтобы выжить в нём." —  Даниил Данковский, Pathologic 2</p>
+                    <p>Посмотреть мои работы: <a href="#services" class="hero-link" id="scrollToWorks">Работы</a></p>
                 </div>
-            </div>                  
-            <div class="carousel" id="carousel">
-                <!-- Контент будет загружаться сюда -->
+                <div class="hero-model">
+                    <canvas id="modelCanvas11111111"></canvas>
+                </div>
             </div>
+        </section>
+
+        <!-- Категории и карусель -->
+        <section id="services">
+            <div class="categories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="art">Art</button>
+                <button class="category-btn" data-category="interiors">Interiors</button>
+                <button class="category-btn" data-category="videos">Videos</button>
+                <button class="category-btn" data-category="vfx">VFX</button>
+            </div>
+            <div class="carousel" id="carousel"></div>
+        </section>
+    </main>
+
+    <!-- Модальное окно -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">×</span>
+            <img src="" alt="Modal Image" id="modalImage" style="display: none;">
+            <video id="modalVideo" controls style="display: none;"></video>
+            <h3 id="modalTitle"></h3>
+            <p id="modalDesc"></p>
+            <p id="modalSoftware"></p>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+    <!-- Подключение скриптов -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/pmrem/PMREMGenerator.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/pmrem/PMREMCubeUVPacker.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+    <script src="portfolioData.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

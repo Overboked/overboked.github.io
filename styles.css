@@ -1,328 +1,433 @@
-body, html {
+* {
     margin: 0;
     padding: 0;
-    width: 100%;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html, body {
+    width: 100%; /* Ограничиваем ширину HTML и body */
+    max-width: 100vw; /* Не даем выходить за пределы экрана */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Предотвращает горизонтальный скроллинг для всего документа */
+}
+
+body {
+    background: linear-gradient(135deg, #2e3033, #000000);
+    color: #fff;
     height: 100%;
-    font-family: 'Arial', sans-serif;
-    overflow-y: auto;
-    background-color: #121212;
-    color: #ffffff;
+    margin: 0; 
+    padding: 0; 
 }
 
-.sidebar-toggle {
-    position: fixed;
-    top: 0px;
-    left: 2%;
-    font-size: 1.7em;
-    color: white;
-    background-color: rgba(0, 0, 0, 0);
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 1000;
-    transition: background-color 0.3s;
+main {
+    width: 100%; /* Ограничиваем ширину основного контента */
+    max-width: 100vw; /* Не даем выходить за пределы экрана */
+    overflow-x: hidden; /* Предотвращает горизонтальный скроллинг */
 }
 
-.sidebar-toggle:hover {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
+/* Боковая панель */
 .sidebar {
     position: fixed;
     top: 0;
-    left: -250px; /* Начальное положение за экраном */
+    left: -250px;
     width: 250px;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background: #2a2a2a;
     transition: left 0.3s ease;
-    z-index: 999;
+    z-index: 1000;
+    max-width: 100vw; /* Ограничиваем ширину боковой панели */
 }
 
 .sidebar.active {
-    left: 0; /* Показывает боковую панель */
+    left: 0;
 }
 
-.sidebar-link {
-    display: block;
-    padding: 15px;
-    color: white;
+.sidebar ul {
+    list-style: none;
+    padding: 20px;
+    margin-top: 60px;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    color: #fff;
     text-decoration: none;
-    transition: background-color 0.3s;
+    font-size: 18px;
+    transition: color 0.3s;
 }
 
-.sidebar-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+.sidebar ul li a:hover {
+    color: #ffcc00;
 }
 
-.content-wrapper {
-    position: relative;
-    width: 100%;
-    transition: transform 0.3s ease;
+.burger {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 1100;
+    transition: transform 0.3s, color 0.3s;
 }
 
-.content-wrapper.shifted {
-    transform: translateX(250px); /* Сдвигаем контент вправо на ширину боковой панели */
+.burger.active {
+    color: #ffcc00;
+    transform: rotate(90deg); /* Поворот для эффекта крестика */
 }
 
+/* Размытый заголовок */
 .blurred-bar {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(10px);
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 0 0 50% 50%;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 0;
-    z-index: 10;
+    width: 100%;
+    max-width: 100vw; /* Ограничиваем ширину */
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: flex-end;
+    z-index: 900;
 }
 
-.blurred-bar a {
-    color: rgb(24, 24, 24);
-    margin: 0 15px;
-    font-size: 24px;
+.social-icons a {
+    color: #fff;
+    margin: 0 10px;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #ffcc00;
+}
+
+/* ... (весь остальной код остается без изменений до .hero) */
+
+.hero-quote {
+    font-size: 16px !important;
+    color: #919191 !important;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+@media (min-width: 601px) {
+    .hero-quote {
+        font-size: 18px;
+    }
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden; /* Предотвращает возможный скроллинг */
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column; /* Сверху вниз на мобильных */
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px; /* Ограничение ширины на десктопах */
+    padding: 20px; /* Отступы для мобильных */
+}
+
+.hero-text {
+    flex: 1;
+    padding: 10px;
+    text-align: left; /* Выравнивание текста влево на всех устройствах */
+}
+
+.hero-text h1 {
+    font-size: 72px;
+    margin-bottom: 10px;
+    transition: transform 0.3s;
+    background: linear-gradient(45deg, #ffffff, #ffcc00); /* Градиент цвета */
+    -webkit-background-clip: text; /* Для Safari */
+    background-clip: text; /* Обрезает градиент под текст */
+    color: transparent; /* Скрывает исходный цвет текста */
+    -webkit-text-fill-color: transparent; /* Для совместимости с Safari */
+    background-size: 200% 200%; /* Указываем размер градиента для анимации */
+    animation: gradientShift 8s ease infinite; /* Анимация градиента */
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Адаптивность для планшетов и десктопов */
+@media (min-width: 601px) {
+    .hero-text h1 {
+        font-size: 96px;
+    }
+}
+
+.hero-text p {
+    font-size: 18px;
+    color: #ccc;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.hero-link {
+    color: #ffcc00;
     text-decoration: none;
     transition: color 0.3s;
 }
 
-.blurred-bar a:hover {
-    color: #ffd700;
+.hero-link:hover {
+    color: #e6b800;
 }
 
-.main-content {
-    position: relative;
+.hero-model {
+    flex: .1 !important; /* Занимает больше места на десктопах */
+    width: 100% !important;
+    max-width: 600px; /* Максимальная ширина модели на десктопах */
+    height: 400px; /* Фиксированная высота для модели */
+}
+
+#modelCanvas {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    height: 100%;
+}
+
+/* Адаптивность для планшетов и десктопов */
+@media (min-width: 601px) {
+    .hero-content {
+        flex-direction: row; /* Слева направо на планшетах и десктопах */
+        justify-content: space-between;
+    }
+
+    .hero-text {
+        text-align: left;
+        flex: 0.5; /* Текст занимает половину пространства */
+    }
+
+    .hero-model {
+        flex: 0.5; /* Модель занимает половину пространства, но может растягиваться */
+        max-width: 600px;
+        height: 400px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .hero-model {
+        max-width: 800px; /* Увеличиваем размер модели на десктопах */
+        height: 500px;
+    }
+
+    .hero-text h1 {
+        font-size: 60px;
+    }
+
+    .hero-text p {
+        font-size: 20px;
+    }
+}
+
+/* Анимация появления для модели (опционально) */
+.hero-model {
+    flex: 1;
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+}
+.hero-model.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (min-width: 1025px) {
+    .hero-model {
+        max-width: 600px;
+        height: 400px;
+    }
+
+    .hero-photo {
+        max-width: 250px;
+    }
+}
+
+/* ... (остальной код остается без изменений) */
+
+#modelCanvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* Категории и карусель */
+#services {
+    padding: 20px 10px;
     text-align: center;
-    padding: 50px 20px;
-    min-height: 100vh;
+    width: 100%;
+    max-width: 100vw;
 }
 
-.text-overlay {
-    font-size: 3em;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    z-index: 1;
-    text-align: left;
-    width: 100%;
-    box-sizing: border-box;
-    padding-left: 20px;
+.categories {
     margin-bottom: 20px;
 }
 
-.subtitle {
-    font-size: 1.2em;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    margin-top: 10px;
-}
-
-#model-container {
-    flex: 1; /* Занимает доступное пространство */
-    max-width: 1000px; /* Увеличиваем максимальную ширину */
-    height: auto; /* Высота подстраивается под содержимое */
-    margin-left: 20%; /* Сдвигает модель вправо */
-    margin-top: -400px; /* Сдвигает модель вверх на 50 пикселей */
-}
-
-.additional-content {
-    padding: 20px;
-    text-align: center;
-    min-height: 600px;
-    font-size: 1.5em;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    z-index: 1;
-    text-align: left;
-    width: 100%;
-    box-sizing: border-box;
-    padding-left: 20px;
-}
-
-.category-buttons {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
-    padding: 10px 0;
-}
-
-.curve {
-    position: absolute;
-    bottom: 8px; /* Положение круга относительно нижней границы контейнера */
-    left: 0;
-    width: 100px; /* Размер круга */
-    height: 1px; /* Размер круга */
-    background: rgb(0, 0, 0);
-    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
-}
-
-.category-button {
-    padding: 15px 30px;
-    font-size: 1.2em;
-    color: rgb(0, 0, 0);
-    background-color: rgba(255, 255, 255, 0.1);
+.category-btn {
+    background: #333;
     border: none;
-    border-radius: 25px;
+    padding: 10px 20px;
+    margin: 5px;
+    color: #fff;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.category-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-5px);
+.category-btn.active, .category-btn:hover {
+    background: #ffcc00;
+    color: #000;
+    box-shadow: 0 4px 10px rgba(255, 204, 0, 0.3);
+    transform: scale(1.05);
+    animation: pulse 1.5s infinite ease-in-out;
 }
 
-.category-button.active {
-    background-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-5px);
+@keyframes pulse {
+    0% { transform: scale(1.05); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1.05); }
 }
 
 .carousel {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr); /* 6 колонок в строке */
-    gap: 0.5%; /* Отступы в процентах */
-    justify-content: center; /* Центрируем содержимое по горизонтали */
-    align-content: start; /* Выравниваем строки по верхнему краю */
-    min-height: 600px;
-    transition: opacity 0.3s ease;
-}
-
-.carousel img, .carousel video {
+    column-width: 140px;
+    column-gap: 10px;
+    padding: 10px;
     width: 100%;
-    height: auto;
-    border-radius: 10px;
-    transition: transform 0.3s;
-    object-fit: contain; /* Масштабирует изображение, сохраняя пропорции */
+    max-width: 100vw;
+    overflow-x: hidden;
+    min-height: 1200px; /* Фиксированная минимальная высота, чтобы вместить все работы */
 }
 
-.carousel img:hover, .carousel video:hover {
-    transform: scale(1.1);
-}
-
-.background-section {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-#background-section-0 {
-    background-image: url('images/lending.webp');
-}
-
-#background-section-1 {
-    background-image: url('images/white.webp');
-}
-
-#background-section-2 {
-    background-image: url('images/render2.jpg');
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0); /* Начальное состояние */
-    width: 100%; /* Ширина модального окна */
-    max-width: 1000px; /* Максимальная ширина */
-    height: 90%; /* Высота модального окна */
-    max-height: 800px; /* Максимальная высота */
-    background: linear-gradient(0deg, #d8e6ff, #ffffff);
-    border-radius: 15px;
-    opacity: 0;
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    overflow: hidden; /* Скрываем переполнение */
-}
-
-.modal.active {
-    display: flex;
-    transform: translate(-50%, -50%) scale(1); /* Конечное состояние */
-    opacity: 1;
-    object-fit: cover; /* Масштабирует изображение, сохраняя пропорции */
-}
-
-#modalImage {
-    width: 100%; /* Заполняем всю ширину контейнера */
-    height: 100%; /* Заполняем всю высоту контейнера */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Скрываем переполнение */
-    
-}
-
-.modal-content-media {
-    width: auto; /* Ширина изображения */
-    height: 100%; /* Высота изображения */
-    object-fit: cover; /* Масштабирует изображение, заполняя пространство */
-    object-position: center; /* Центрирует изображение */
-}
-
-.modal-info {
-    width: 100%;
-    margin-top: 20px;
-    color: #000000;
-    text-align: left;
-    padding: 1%;
-}
-
-.additional-images {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    gap: 0px;
-    margin-top: 10px;
-}
-
-.additional-images img {
-    width: 50px;
-    height: auto;
-    border-radius: 5px;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: #aaa;
-    font-size: 24px;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
+.carousel-item {
+    break-inside: avoid;
+    margin-bottom: 10px;
     cursor: pointer;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.5s ease-out forwards;
 }
 
-.modal-overlay {
+
+.carousel-item:nth-child(2n) {
+    opacity: 1;
+    animation-delay: 0.2s;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.carousel-item img, .carousel-item video {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.3s;
+}
+
+.carousel-item:hover img, .carousel-item:hover video {
+    transform: scale(1.05);
+}
+
+/* Модальное окно */
+.modal {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Полупрозрачный черный фон */
-    z-index: 999; /* Убедитесь, что слой находится позади модального окна */
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
-}
-
-.modal-overlay.active {
-    display: flex;
+    background: rgba(0, 0, 0, 0.8);
     justify-content: center;
     align-items: center;
-    opacity: 1;
+    z-index: 1200;
 }
+
+.modal-content {
+    background: #2a2a2a;
+    padding: 20px;
+    max-width: 80%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.modal-content img, .modal-content video {
+    max-width: 100%;
+    max-height: 50vh;
+    object-fit: contain;
+}
+
+.modal-content h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    font-size: 16px;
+    color: #ccc;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: #ffcc00;
+}
+
+/* Адаптивность */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .carousel {
+        column-width: 160px;
+    }
+    .carousel-item {
+        width: 160px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .carousel {
+        column-width: 180px;
+    }
+    .carousel-item {
+        width: 180px;
+    }
+}
+
+
+
