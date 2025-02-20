@@ -23,9 +23,58 @@ const shuffledPortfolioItems = shuffleArray(portfolioItems);
 // Генерация карусели
 const carousel = document.getElementById('carousel');
 function generateCarousel(items) {
-    const scrollPosition = window.scrollY; // Сохраняем текущую позицию прокрутки
     carousel.innerHTML = '';
+    // Группируем работы по projectId для проектов и сохраняем уникальные
+    const projectFaces = {}; // Для "лиц" проектов
+    const uniqueItems = []; // Для уникальных работ без projectId
+
     items.forEach(item => {
+        if (item.projectId) {
+            // Если проект уже есть, пропускаем (берем только первое изображение как "лицо")
+            if (!projectFaces[item.projectId]) {
+                projectFaces[item.projectId] = item; // Берем первую работу как лицо проекта
+            }
+        } else {
+            // Уникальные работы (без projectId) добавляем напрямую
+            uniqueItems.push(item);
+        }
+    });
+
+    // Отображаем "лица" проектов и уникальные работы
+    Object.values(projectFaces).forEach(item => {
+        const div = document.createElement('div');
+        div.classList.add('carousel-item');
+        div.setAttribute('data-category', item.category);
+        div.setAttribute('data-project-id', item.projectId); // Добавляем для идентификации проекта
+
+        if (item.type === 'image') {
+            const img = document.createElement('img');
+            img.src = item.src;
+            img.alt = item.title;
+            img.loading = 'lazy';
+            div.appendChild(img);
+        } else if (item.type === 'video') {
+            const video = document.createElement('video');
+            video.muted = true;
+            video.controls = true;
+            video.loading = 'lazy';
+            video.playsInline = true;
+            const source = document.createElement('source');
+            source.src = item.src;
+            source.type = 'video/webm';
+            const fallbackSource = document.createElement('source');
+            fallbackSource.src = item.src.replace('.webm', '.mp4');
+            fallbackSource.type = 'video/mp4';
+            video.appendChild(source);
+            video.appendChild(fallbackSource);
+            div.appendChild(video);
+        }
+
+        carousel.appendChild(div);
+    });
+
+    // Добавляем уникальные работы
+    uniqueItems.forEach(item => {
         const div = document.createElement('div');
         div.classList.add('carousel-item');
         div.setAttribute('data-category', item.category);
@@ -42,8 +91,8 @@ function generateCarousel(items) {
             video.controls = true;
             video.loading = 'lazy';
             video.playsInline = true;
-            video.autoplay = true;
             video.loop = true;
+            video.autoplay = true;
             const source = document.createElement('source');
             source.src = item.src;
             source.type = 'video/webm';
@@ -56,14 +105,6 @@ function generateCarousel(items) {
         }
 
         carousel.appendChild(div);
-    });
-    
-    // Восстанавливаем позицию прокрутки с помощью requestAnimationFrame для плавности
-    requestAnimationFrame(() => {
-        window.scrollTo({
-            top: scrollPosition,
-            behavior: 'auto' // Используем 'auto' для мгновенного восстановления (или 'smooth' для плавного)
-        });
     });
 }
 
@@ -128,29 +169,88 @@ carousel.addEventListener('click', (e) => {
         return;
     }
 
-    modalImage.style.display = portfolioItem.type === 'image' ? 'block' : 'none';
-    modalVideo.style.display = portfolioItem.type === 'video' ? 'block' : 'none';
-
-    if (portfolioItem.type === 'video') {
-        modalVideo.src = portfolioItem.src;
-        modalVideo.muted = true;
-        modalVideo.controls = true;
-        modalVideo.playsInline = true;
-        modalVideo.play();
-    } else {
-        modalImage.src = portfolioItem.src;
-    }
-
+    modalImage.style.display = 'none';
+    modalVideo.style.display = 'none';
     modalTitle.textContent = portfolioItem.title;
     modalDesc.textContent = portfolioItem.desc;
     modalSoftware.textContent = `Сделано в: ${portfolioItem.software}`;
+
+    // Создаём галерею в модальном окне
+    const modalGallery = document.createElement('div');
+    modalGallery.classList.add('modal-gallery');
+
+    if (portfolioItem.projectId) {
+        // Если есть projectId, показываем все рендеры проекта
+        const projectItems = portfolioItems.filter(p => p.projectId === portfolioItem.projectId);
+        projectItems.forEach(p => {
+            const mediaDiv = document.createElement('div');
+            mediaDiv.classList.add('modal-media');
+
+            if (p.type === 'image') {
+                const img = document.createElement('img');
+                img.src = p.src;
+                img.alt = p.title;
+                mediaDiv.appendChild(img);
+            } else if (p.type === 'video') {
+                const video = document.createElement('video');
+                video.controls = true;
+                video.muted = true;
+                video.playsInline = true;
+                const source = document.createElement('source');
+                source.src = p.src;
+                source.type = 'video/webm';
+                const fallbackSource = document.createElement('source');
+                fallbackSource.src = p.src.replace('.webm', '.mp4');
+                fallbackSource.type = 'video/mp4';
+                video.appendChild(source);
+                video.appendChild(fallbackSource);
+                mediaDiv.appendChild(video);
+            }
+
+            modalGallery.appendChild(mediaDiv);
+        });
+    } else {
+        // Если нет projectId (уникальная работа), показываем только эту работу
+        const mediaDiv = document.createElement('div');
+        mediaDiv.classList.add('modal-media');
+
+        if (portfolioItem.type === 'image') {
+            const img = document.createElement('img');
+            img.src = portfolioItem.src;
+            img.alt = portfolioItem.title;
+            mediaDiv.appendChild(img);
+        } else if (portfolioItem.type === 'video') {
+            const video = document.createElement('video');
+            video.controls = true;
+            video.muted = true;
+            video.playsInline = true;
+            const source = document.createElement('source');
+            source.src = portfolioItem.src;
+            source.type = 'video/webm';
+            const fallbackSource = document.createElement('source');
+            fallbackSource.src = portfolioItem.src.replace('.webm', '.mp4');
+            fallbackSource.type = 'video/mp4';
+            video.appendChild(source);
+            video.appendChild(fallbackSource);
+            mediaDiv.appendChild(video);
+        }
+
+        modalGallery.appendChild(mediaDiv);
+    }
+
+    const modalContent = document.querySelector('.modal-content');
+    modalContent.appendChild(modalGallery);
     modal.style.display = 'flex';
 });
+
 
 closeModal.addEventListener('click', () => {
     modal.style.display = 'none';
     modalVideo.pause();
     modalVideo.src = '';
+    const modalContent = document.querySelector('.modal-content');
+    const gallery = modalContent.querySelector('.modal-gallery');
+    if (gallery) modalContent.removeChild(gallery);
 });
 
 modal.addEventListener('click', (e) => {
@@ -158,6 +258,9 @@ modal.addEventListener('click', (e) => {
         modal.style.display = 'none';
         modalVideo.pause();
         modalVideo.src = '';
+        const modalContent = document.querySelector('.modal-content');
+        const gallery = modalContent.querySelector('.modal-gallery');
+        if (gallery) modalContent.removeChild(gallery);
     }
 });
 
@@ -257,10 +360,32 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); // Предотвращаем стандартный переход
             const target = document.getElementById('services');
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth', // Плавная прокрутка
-                    block: 'start' // Начинаем сверху секции
-                });
+                const targetPosition = target.offsetTop; // Позиция секции относительно верха
+                const startPosition = window.scrollY; // Текущая позиция прокрутки
+                const distance = targetPosition - startPosition; // Расстояние до цели
+                const duration = 1000; // Длительность анимации в мс (1 секунда)
+                let start = null;
+
+                function smoothScroll(timestamp) {
+                    if (start === null) start = timestamp;
+                    const progress = timestamp - start;
+                    const easeProgress = easeInOutQuad(progress, startPosition, distance, duration);
+
+                    window.scrollTo(0, easeProgress);
+                    if (progress < duration) {
+                        requestAnimationFrame(smoothScroll);
+                    }
+                }
+
+                // Функция для плавного перехода (квинтовая интерполяция)
+                function easeInOutQuad(t, b, c, d) {
+                    t /= d / 2;
+                    if (t < 1) return c / 2 * t * t + b;
+                    t--;
+                    return -c / 2 * (t * (t - 2) - 1) + b;
+                }
+
+                requestAnimationFrame(smoothScroll);
             }
         });
     }

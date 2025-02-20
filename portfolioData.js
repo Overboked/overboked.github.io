@@ -2,6 +2,7 @@ const ART_PATH = 'images/art/';
 const INTER_PATH = 'images/interiors/';
 const VIDEO_PATH = 'videos/';
 const VFX_PATH = 'videos/vfx/';
+const PACKS_PATH = 'images/packs/';
 
 const portfolioItems = [
     // Art (уникальные изображения)
@@ -13,7 +14,31 @@ const portfolioItems = [
     { type: 'image', category: 'art', src: `${ART_PATH}art6.webp`, title: '3', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
     { type: 'image', category: 'art', src: `${ART_PATH}art7.webp`, title: '4', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
     { type: 'image', category: 'art', src: `${ART_PATH}art8.webp`, title: '5', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
-    { type: 'image', category: 'art', src: `${ART_PATH}art9.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}art9.webp`, title: 'Kate', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}1.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}2.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+
+    { type: 'image', category: 'art', src: `${ART_PATH}Art_Landscape.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}city 1.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}city 2.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}fullhd.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}holders.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}render.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}ruthlessness.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}v0.2.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}Vulitsya.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}wallpapper.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+
+
+    //Scooter
+    { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_1.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter',projectId: 'scooter_1' },
+    { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_2.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter',projectId: 'scooter_1' },
+    { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_3.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter',projectId: 'scooter_1' },
+    { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_4.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter',projectId: 'scooter_1' },
+    { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_5.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter',projectId: 'scooter_1' },
+    { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_6.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter',projectId: 'scooter_1' },
+
+    { type: 'image', category: 'modeling', src: `${ART_PATH}3.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
 
     // Interiors
     { type: 'image', category: 'interiors', src: `${INTER_PATH}interior1.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },

@@ -130,28 +130,30 @@ main {
     text-align: center;
     width: 100%;
     max-width: 100vw;
-    overflow: hidden; /* Предотвращает возможный скроллинг */
+    overflow: hidden;
 }
 
 .hero-content {
     display: flex;
-    flex-direction: column; /* Сверху вниз на мобильных */
+    flex-direction: column;
     align-items: center;
     gap: 20px;
     width: 100%;
-    max-width: 1200px; /* Ограничение ширины на десктопах */
-    padding: 20px; /* Отступы для мобильных */
+    max-width: 1200px;
+    padding: 10px; /* Уменьшаем отступы на мобильных */
 }
 
 .hero-text {
-    flex: 1;
+    flex: 1.5;
     padding: 10px;
-    text-align: left; /* Выравнивание текста влево на всех устройствах */
+    text-align: left;
+    max-width: 90%; /* Уменьшаем максимальную ширину текста на мобильных */
 }
 
 .hero-text h1 {
-    font-size: 72px;
+    font-size: 45px;
     margin-bottom: 10px;
+    margin-top: 60%;
     transition: transform 0.3s;
     background: linear-gradient(45deg, #ffffff, #ffcc00); /* Градиент цвета */
     -webkit-background-clip: text; /* Для Safari */
@@ -160,7 +162,49 @@ main {
     -webkit-text-fill-color: transparent; /* Для совместимости с Safari */
     background-size: 200% 200%; /* Указываем размер градиента для анимации */
     animation: gradientShift 8s ease infinite; /* Анимация градиента */
+    line-height: 1.3;
 }
+
+.hero-text p {
+    font-size: 16px; /* Уменьшаем размер подзаголовка на мобильных */
+    color: #ccc;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.hero-quote {
+    font-size: 14px; /* Уменьшаем размер цитаты на мобильных */
+    color: #ffcc00;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.hero-link {
+    color: #ffcc00;
+    text-decoration: none;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.hero-link:hover {
+    color: #e6b800;
+    transform: scale(1.05);
+}
+
+.hero-model {
+    flex: 0.8;
+    width: 100%;
+    max-width: 500px;
+    height: 350px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.hero-model.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
@@ -274,6 +318,7 @@ main {
     text-align: center;
     width: 100%;
     max-width: 100vw;
+    position: relative !important;
 }
 
 .categories {
@@ -408,6 +453,25 @@ main {
 
 .close-modal:hover {
     color: #ffcc00;
+}
+
+.modal-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-media {
+    flex: 1;
+    min-width: 450px;
+    max-width: 300px;
+}
+
+.modal-media img, .modal-media video {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 /* Адаптивность */
