@@ -61,8 +61,6 @@ function generateCarousel(items) {
             video.controls = true;
             video.loading = 'lazy';
             video.playsInline = true;
-            video.autoplay = true;
-            video.loop = true;
             const source = document.createElement('source');
             source.src = item.src;
             source.type = 'video/webm';
@@ -102,8 +100,6 @@ function generateCarousel(items) {
             video.controls = true;
             video.loading = 'lazy';
             video.playsInline = true;
-            video.autoplay = true;
-            video.loop = true;
             const source = document.createElement('source');
             source.src = item.src;
             source.type = 'video/webm';
@@ -120,7 +116,7 @@ function generateCarousel(items) {
     });
 
     // Обработчик для показа/скрытия текста при наведении
-    const carouselItems = document.querySelectorAll('.carousel-item'); // Переименовали items в carouselItems
+    const carouselItems = document.querySelectorAll('.carousel-item');
     carouselItems.forEach(item => {
         item.addEventListener('mouseenter', () => {
             const tooltip = item.querySelector('.item-tooltip');
@@ -131,15 +127,29 @@ function generateCarousel(items) {
             if (tooltip) tooltip.style.opacity = '0';
         });
 
-        // Для мобильных (опционально, тап вместо ховера)
+        // Для мобильных: показываем tooltip при длительном тапе (hold), но не блокируем клик
+        let touchTimer = null;
         item.addEventListener('touchstart', (e) => {
-            e.preventDefault();
             const tooltip = item.querySelector('.item-tooltip');
-            if (tooltip) tooltip.style.opacity = '1';
+            if (tooltip) {
+                touchTimer = setTimeout(() => {
+                    tooltip.style.opacity = '1';
+                }, 500); // Показать через 0.5 секунды удержания
+            }
         });
         item.addEventListener('touchend', () => {
-            const tooltip = item.querySelector('.item-tooltip');
-            if (tooltip) tooltip.style.opacity = '0';
+            if (touchTimer) {
+                clearTimeout(touchTimer);
+                const tooltip = item.querySelector('.item-tooltip');
+                if (tooltip) tooltip.style.opacity = '0';
+            }
+        });
+        item.addEventListener('touchmove', () => {
+            if (touchTimer) {
+                clearTimeout(touchTimer);
+                const tooltip = item.querySelector('.item-tooltip');
+                if (tooltip) tooltip.style.opacity = '0';
+            }
         });
     });
 }

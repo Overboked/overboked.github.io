@@ -514,6 +514,7 @@ main {
     transition: opacity 0.3s ease; /* Плавное появление/исчезновение */
     pointer-events: none; /* Не блокирует клики на работу */
     white-space: nowrap; /* Предотвращает перенос текста */
+    z-index: 10; /* Убедимся, что tooltip выше других элементов */
 }
 
 
