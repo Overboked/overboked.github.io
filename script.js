@@ -100,6 +100,8 @@ function generateCarousel(items) {
             video.controls = true;
             video.loading = 'lazy';
             video.playsInline = true;
+            video.autoplay = true;
+            video.loop = true;
             const source = document.createElement('source');
             source.src = item.src;
             source.type = 'video/webm';
