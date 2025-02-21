@@ -1,5 +1,5 @@
 const ART_PATH = 'images/art/';
-const INTER_PATH = 'images/interiors/';
+const ARCHVIZ_PATH = 'images/archviz/';
 const VIDEO_PATH = 'videos/';
 const VFX_PATH = 'videos/vfx/';
 const PACKS_PATH = 'images/packs/';
@@ -17,6 +17,11 @@ const portfolioItems = [
     { type: 'image', category: 'art', src: `${ART_PATH}art9.webp`, title: 'Kate', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
     { type: 'image', category: 'art', src: `${ART_PATH}1.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
     { type: 'image', category: 'art', src: `${ART_PATH}2.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}daylight.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}flower_1.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}knight.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+    { type: 'image', category: 'art', src: `${ART_PATH}Landscape_1.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
+
 
     { type: 'image', category: 'art', src: `${ART_PATH}Art_Landscape.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
     { type: 'image', category: 'art', src: `${ART_PATH}city 1.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
@@ -40,16 +45,16 @@ const portfolioItems = [
 
     { type: 'image', category: 'modeling', src: `${ART_PATH}3.webp`, title: '6', desc: 'Робот-стражник', software: 'ZBrush, Substance Painter' },
 
-    // Interiors
-    { type: 'image', category: 'interiors', src: `${INTER_PATH}interior1.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
-    { type: 'image', category: 'interiors', src: `${INTER_PATH}interior2.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
-    { type: 'image', category: 'interiors', src: `${INTER_PATH}interior3.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
-    { type: 'image', category: 'interiors', src: `${INTER_PATH}interior4.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
-    { type: 'image', category: 'interiors', src: `${INTER_PATH}interior5.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
-    { type: 'image', category: 'interiors', src: `${INTER_PATH}interior6.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
-    { type: 'image', category: 'interiors', src: `${INTER_PATH}interior7.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
-    { type: 'image', category: 'interiors', src: `${INTER_PATH}interior8.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
-    { type: 'image', category: 'interiors', src: `${INTER_PATH}interior9.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
+    // archviz
+    { type: 'image', category: 'archviz', src: `${ARCHVIZ_PATH}interior1.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
+    { type: 'image', category: 'archviz', src: `${ARCHVIZ_PATH}interior2.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
+    { type: 'image', category: 'archviz', src: `${ARCHVIZ_PATH}interior3.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
+    { type: 'image', category: 'archviz', src: `${ARCHVIZ_PATH}interior4.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
+    { type: 'image', category: 'archviz', src: `${ARCHVIZ_PATH}interior5.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
+    { type: 'image', category: 'archviz', src: `${ARCHVIZ_PATH}interior6.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
+    { type: 'image', category: 'archviz', src: `${ARCHVIZ_PATH}interior7.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
+    { type: 'image', category: 'archviz', src: `${ARCHVIZ_PATH}interior8.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
+    { type: 'image', category: 'archviz', src: `${ARCHVIZ_PATH}interior9.webp`, title: 'Living Room', desc: 'Современная гостиная', software: '3ds Max, V-Ray' },
 
     // Videos
     { type: 'video', category: 'videos', src: `${VIDEO_PATH}video1.webm`, title: 'Character Animation', desc: 'Анимация персонажа', software: 'Blender, After Effects' },
@@ -57,6 +62,15 @@ const portfolioItems = [
     { type: 'video', category: 'videos', src: `${VIDEO_PATH}video3.webm`, title: 'Flythrough', desc: 'Пролет через сцену', software: 'Maya' },
     { type: 'video', category: 'videos', src: `${VIDEO_PATH}video4.webm`, title: 'Flythrough', desc: 'Пролет через сцену', software: 'Maya' },
     { type: 'video', category: 'videos', src: `${VIDEO_PATH}video5.webm`, title: 'Flythrough', desc: 'Пролет через сцену', software: 'Maya' },
+    { type: 'video', category: 'videos', src: `${VIDEO_PATH}abstract_flames.webm`, title: 'Flythrough', desc: 'Пролет через сцену', software: 'Maya' },
+    { type: 'video', category: 'videos', src: `${VIDEO_PATH}Elden.webm`, title: 'Flythrough', desc: 'Пролет через сцену', software: 'Maya' },
+    { type: 'video', category: 'videos', src: `${VIDEO_PATH}Flip_donut.webm`, title: 'Flythrough', desc: 'Пролет через сцену', software: 'Maya' },
+    { type: 'video', category: 'videos', src: `${VIDEO_PATH}treasure.webm`, title: 'Flythrough', desc: 'Пролет через сцену', software: 'Maya' },
+    { type: 'video', category: 'videos', src: `${VIDEO_PATH}nft.webm`, title: 'Flythrough', desc: 'Пролет через сцену', software: 'Maya' },
+
+    { type: 'video', category: 'videos', src: `${VIDEO_PATH}ThelaceCover.webm`, title: 'Flythrough', desc: 'Пролет через сцену', software: 'Maya',projectId: 'TheLace_1'  },
+    { type: 'video', category: 'videos', src: `${VIDEO_PATH}ThelaceCover1.webm`, title: 'Flythrough', desc: 'Пролет через сцену', software: 'Maya',projectId: 'TheLace_1'  },
+    { type: 'video', category: 'videos', src: `${VIDEO_PATH}Thelace2.webm`, title: 'Flythrough', desc: 'Пролет через сцену', software: 'Maya',projectId: 'TheLace_1'  },
 
     // VFX
     { type: 'video', category: 'vfx', src: `${VFX_PATH}vfx1.webm`, title: 'Explosion', desc: 'Реалистичная симуляция взрыва', software: 'Houdini' },

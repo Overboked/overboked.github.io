@@ -34,10 +34,11 @@ main {
     left: -250px;
     width: 250px;
     height: 100%;
-    background: #2a2a2a;
+    background: #2a2a2a73;
     transition: left 0.3s ease;
     z-index: 1000;
     max-width: 100vw; /* Ограничиваем ширину боковой панели */
+    backdrop-filter: blur(10px);
 }
 
 .sidebar.active {
@@ -105,8 +106,6 @@ main {
 .social-icons a:hover {
     color: #ffcc00;
 }
-
-/* ... (весь остальной код остается без изменений до .hero) */
 
 .hero-quote {
     font-size: 16px !important;
@@ -313,7 +312,7 @@ main {
 }
 
 /* Категории и карусель */
-#services {
+#works {
     padding: 20px 10px;
     text-align: center;
     width: 100%;
@@ -371,6 +370,15 @@ main {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeIn 0.5s ease-out forwards;
+}
+
+.carousel-item.has-project {
+    box-shadow: 0 4px 10px rgb(255, 204, 0); /* Увеличенная тень */
+}
+
+.carousel-item.has-project:hover img, .carousel-item.has-project:hover video {
+    transform: scale(1.1); /* Больше увеличение при наведении */
+    box-shadow: 0 6px 30px rgb(255, 204, 0); /* Увеличенная тень при наведении */
 }
 
 
@@ -493,5 +501,242 @@ main {
     }
 }
 
+.item-tooltip {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.8); /* Полупрозрачный фон */
+    color: #fff; /* Белый текст для контраста */
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px; /* Небольшой размер текста */
+    opacity: 0; /* Скрыт по умолчанию */
+    transition: opacity 0.3s ease; /* Плавное появление/исчезновение */
+    pointer-events: none; /* Не блокирует клики на работу */
+    white-space: nowrap; /* Предотвращает перенос текста */
+}
 
 
+.section {
+    padding: 40px 10px; /* Отступы для секций */
+    width: 100%;
+    max-width: 100vw;
+    background: linear-gradient(135deg, #000000, #2e3033);
+    color: #fff;
+}
+
+.section-content {
+    max-width: 800px; /* Ограничение ширины текста */
+    margin: 0 auto; /* Центрирование */
+    text-align: left;
+}
+
+.section h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    color: #ffcc00; /* Жёлтый заголовок для стиля */
+}
+
+.section p {
+    font-size: 16px;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 600px) {
+    .section {
+        padding: 20px 5px; /* Уменьшаем отступы на мобильных */
+    }
+
+    .section-content {
+        max-width: 90%; /* Уменьшаем ширину текста на мобильных */
+    }
+
+    .section h2 {
+        font-size: 24px;
+    }
+
+    .section p {
+        font-size: 14px;
+    }
+}
+
+
+.contact {
+    padding: 40px 10px;
+    width: 100%;
+    max-width: 100vw;
+    background: linear-gradient(135deg, #2e3033, #000000);
+    color: #fff;
+}
+
+.contact .section-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.contact h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    color: #ffcc00;
+}
+
+.contact p {
+    font-size: 16px;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.contact-link {
+    color: #ffcc00;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.contact-link:hover {
+    color: #e6b800;
+}
+
+.social-icons {
+    margin-top: 20px;
+}
+
+.social-icons a {
+    color: #fff;
+    margin: 0 10px;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #ffcc00;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 600px) {
+    .contact {
+        padding: 20px 5px;
+    }
+
+    .contact .section-content {
+        max-width: 90%;
+    }
+
+    .contact h2 {
+        font-size: 24px;
+    }
+
+    .contact p {
+        font-size: 14px;
+    }
+
+    .social-icons a {
+        font-size: 20px;
+        margin: 0 8px;
+    }
+}
+
+.section.blog {
+    padding: 40px 10px;
+    width: 100%;
+    max-width: 100vw;
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.section-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.section.blog h1 {
+    font-size: 48px;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    color: #ffcc00;
+}
+
+.blog-grid {
+    column-width: 300px; /* Большие карточки для блогов */
+    column-gap: 20px;
+    padding: 10px;
+    width: 100%;
+}
+
+.blog-post {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    cursor: pointer;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background: #2a2a2a; /* Тёмный фон для постов */
+    border-radius: 8px; /* Скругленные углы */
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.blog-post:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.blog-post img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.blog-post h3 {
+    font-size: 20px;
+    color: #fff;
+    margin: 10px 15px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.blog-post p {
+    font-size: 14px;
+    color: #ccc;
+    margin: 0 15px 10px;
+    line-height: 1.5;
+}
+
+.post-excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Ограничиваем до 2 строк */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 600px) {
+    .section.blog {
+        padding: 20px 5px;
+    }
+
+    .section.blog h1 {
+        font-size: 36px;
+    }
+
+    .blog-grid {
+        column-width: 100%; /* Одна колонка на мобильных */
+    }
+
+    .blog-post {
+        margin-bottom: 15px;
+    }
+
+    .blog-post h3 {
+        font-size: 18px;
+    }
+
+    .blog-post p {
+        font-size: 12px;
+    }
+}

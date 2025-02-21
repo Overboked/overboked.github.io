@@ -1,4 +1,3 @@
-// Бургер-меню
 const burger = document.getElementById('burger');
 const sidebar = document.getElementById('sidebar');
 
@@ -7,9 +6,9 @@ burger.addEventListener('click', () => {
     burger.classList.toggle('active');
 });
 
-// Функция для перемешивания массива (алгоритм Фишера-Йетса)
+// Функция для перемешивания массива
 function shuffleArray(array) {
-    const shuffled = [...array]; // Создаем копию массива
+    const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -24,28 +23,31 @@ const shuffledPortfolioItems = shuffleArray(portfolioItems);
 const carousel = document.getElementById('carousel');
 function generateCarousel(items) {
     carousel.innerHTML = '';
-    // Группируем работы по projectId для проектов и сохраняем уникальные
     const projectFaces = {}; // Для "лиц" проектов
     const uniqueItems = []; // Для уникальных работ без projectId
 
     items.forEach(item => {
         if (item.projectId) {
-            // Если проект уже есть, пропускаем (берем только первое изображение как "лицо")
             if (!projectFaces[item.projectId]) {
                 projectFaces[item.projectId] = item; // Берем первую работу как лицо проекта
             }
         } else {
-            // Уникальные работы (без projectId) добавляем напрямую
-            uniqueItems.push(item);
+            uniqueItems.push(item); // Уникальные работы добавляем напрямую
         }
     });
 
-    // Отображаем "лица" проектов и уникальные работы
+    // Отображаем "лица" проектов
     Object.values(projectFaces).forEach(item => {
         const div = document.createElement('div');
-        div.classList.add('carousel-item');
+        div.classList.add('carousel-item', 'has-project');
         div.setAttribute('data-category', item.category);
-        div.setAttribute('data-project-id', item.projectId); // Добавляем для идентификации проекта
+        div.setAttribute('data-project-id', item.projectId);
+        div.setAttribute('data-title', item.title); // Добавляем атрибут для названия
+
+        // Создаём текст для наведения
+        const tooltip = document.createElement('div');
+        tooltip.classList.add('item-tooltip');
+        tooltip.textContent = `${item.title}, ${item.category}`;
 
         if (item.type === 'image') {
             const img = document.createElement('img');
@@ -59,6 +61,8 @@ function generateCarousel(items) {
             video.controls = true;
             video.loading = 'lazy';
             video.playsInline = true;
+            video.autoplay = true;
+            video.loop = true;
             const source = document.createElement('source');
             source.src = item.src;
             source.type = 'video/webm';
@@ -70,6 +74,7 @@ function generateCarousel(items) {
             div.appendChild(video);
         }
 
+        div.appendChild(tooltip);
         carousel.appendChild(div);
     });
 
@@ -78,6 +83,12 @@ function generateCarousel(items) {
         const div = document.createElement('div');
         div.classList.add('carousel-item');
         div.setAttribute('data-category', item.category);
+        div.setAttribute('data-title', item.title); // Добавляем атрибут для названия
+
+        // Создаём текст для наведения
+        const tooltip = document.createElement('div');
+        tooltip.classList.add('item-tooltip');
+        tooltip.textContent = `${item.title}, ${item.category}`;
 
         if (item.type === 'image') {
             const img = document.createElement('img');
@@ -91,8 +102,8 @@ function generateCarousel(items) {
             video.controls = true;
             video.loading = 'lazy';
             video.playsInline = true;
-            video.loop = true;
             video.autoplay = true;
+            video.loop = true;
             const source = document.createElement('source');
             source.src = item.src;
             source.type = 'video/webm';
@@ -104,7 +115,32 @@ function generateCarousel(items) {
             div.appendChild(video);
         }
 
+        div.appendChild(tooltip);
         carousel.appendChild(div);
+    });
+
+    // Обработчик для показа/скрытия текста при наведении
+    const carouselItems = document.querySelectorAll('.carousel-item'); // Переименовали items в carouselItems
+    carouselItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            const tooltip = item.querySelector('.item-tooltip');
+            if (tooltip) tooltip.style.opacity = '1';
+        });
+        item.addEventListener('mouseleave', () => {
+            const tooltip = item.querySelector('.item-tooltip');
+            if (tooltip) tooltip.style.opacity = '0';
+        });
+
+        // Для мобильных (опционально, тап вместо ховера)
+        item.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const tooltip = item.querySelector('.item-tooltip');
+            if (tooltip) tooltip.style.opacity = '1';
+        });
+        item.addEventListener('touchend', () => {
+            const tooltip = item.querySelector('.item-tooltip');
+            if (tooltip) tooltip.style.opacity = '0';
+        });
     });
 }
 
@@ -358,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scrollToWorks) {
         scrollToWorks.addEventListener('click', (e) => {
             e.preventDefault(); // Предотвращаем стандартный переход
-            const target = document.getElementById('services');
+            const target = document.getElementById('works');
             if (target) {
                 const targetPosition = target.offsetTop; // Позиция секции относительно верха
                 const startPosition = window.scrollY; // Текущая позиция прокрутки

@@ -11,10 +11,11 @@
     <!-- Боковая панель -->
     <div class="sidebar" id="sidebar">
         <ul>
-            <li><a href="#home">Главная</a></li>
-            <li><a href="#about">О нас</a></li>
-            <li><a href="#services">Услуги</a></li>
-            <li><a href="#contact">Контакты</a></li>
+            <li><a href="#home">Main</a></li>
+            <li><a href="#works">Works</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="blog.html">Blog</a></li>
         </ul>
     </div>
 
@@ -40,9 +41,9 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>IIL WORKSHOP</h1>
-                    <p>Привет! Я 3D-художник с более чем 5 годами опыта в создании уникальных работ в области 3D-арт, интерьеров, видео и VFX. Использую Cinema 4D, Houdini и другие инструменты для воплощения идей в жизнь.</p>
-                    <p class="hero-quote">"Мир — это не то, что существует, а то, что мы создаём, чтобы выжить в нём." —  Даниил Данковский, Pathologic 2</p>
-                    <p>Посмотреть мои работы: <a href="#services" class="hero-link" id="scrollToWorks">Работы</a></p>
+                    <p>Hello! I'm a 3D artist with over 5 years of experience creating unique works in 3D art, interiors, video, and VFX. I use Cinema 4D, Houdini, and other tools to bring ideas to life.</p>
+                    <p class="hero-quote">"The world is not what exists, but what we create to survive in it." — Pathologic 2</p>
+                    <p>My work: <a href="#works" class="hero-link" id="scrollToWorks">Click</a></p>
                 </div>
                 <div class="hero-model">
                     <canvas id="modelCanvas11111111"></canvas>
@@ -51,12 +52,12 @@
         </section>
 
         <!-- Категории и карусель -->
-        <section id="services">
+        <section id="works">
             <div class="categories">
                 <button class="category-btn active" data-category="all">All</button>
                 <button class="category-btn" data-category="art">Art</button>
-                <button class="category-btn" data-category="interiors">Interiors</button>
-                <button class="category-btn" data-category="videos">Videos</button>
+                <button class="category-btn" data-category="archviz">Archviz</button>
+                <button class="category-btn" data-category="videos">Animations</button>
                 <button class="category-btn" data-category="vfx">VFX</button>
                 <button class="category-btn" data-category="modeling">Modeling</button>
             </div>
@@ -64,10 +65,31 @@
         </section>
     </main>
 
+    <section id="about" class="section about">
+        <div class="section-content">
+            <h2>About</h2>
+            <p>I am a 3D artist with over 5 years of experience creating unique works in 3D art, archviz, animations, and VFX. My passion is bringing ideas to life through digital worlds, using tools such as Blender, Maya, ZBrush, and Houdini. Each project for me is a story that I tell through visual imagery.</p>
+            <p>I work on projects for games, films, architecture, and advertising, always striving for detail and innovation. In my free time, I dedicate myself to learning new technologies and experimenting with 3D animation.</p>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <div class="section-content">
+            <h2>Contact</h2>
+            <p>Contact me for collaboration or inquiries:</p>
+            <p>Email: <a href="mailto:Overboked@gmail.com" class="contact-link">Overboked@gmail.com</a></p>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/overboked" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/overboked" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://t.me/Overboked" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+            </div>
+        </div>
+    </section>
+
     <!-- Модальное окно -->
     <div class="modal" id="modal">
         <div class="modal-content">
-            <span class="close-modal" id="closeModal">×</span>
+            <span class="close-modal" id="closeModal">X</span>
             <img src="" alt="Modal Image" id="modalImage" style="display: none;">
             <video id="modalVideo" controls style="display: none;"></video>
             <h3 id="modalTitle"></h3>
