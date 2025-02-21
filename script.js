@@ -207,8 +207,8 @@ carousel.addEventListener('click', (e) => {
 
     if (!portfolioItem) {
         console.error('Элемент не найден в portfolioItems:', relativeSrc);
-        modalTitle.textContent = 'Работа не найдена';
-        modalDesc.textContent = 'Информация отсутствует';
+        modalTitle.textContent = 'Not found';
+        modalDesc.textContent = 'No desc. yet';
         modalSoftware.textContent = '';
         modalImage.style.display = 'block';
         modalImage.src = src;
@@ -221,7 +221,7 @@ carousel.addEventListener('click', (e) => {
     modalVideo.style.display = 'none';
     modalTitle.textContent = portfolioItem.title;
     modalDesc.textContent = portfolioItem.desc;
-    modalSoftware.textContent = `Сделано в: ${portfolioItem.software}`;
+    modalSoftware.textContent = `Made with: ${portfolioItem.software}`;
 
     // Создаём галерею в модальном окне
     const modalGallery = document.createElement('div');

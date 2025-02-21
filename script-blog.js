@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalVideo.style.display = 'none';
         modalTitle.textContent = post.title;
         modalDesc.textContent = post.content;
-        modalSoftware.textContent = `Автор: ${post.author} | Дата: ${post.date}`;
+        modalSoftware.textContent = `Author: ${post.author} | Date: ${post.date}`;
         modalImage.src = post.image;
         modal.style.display = 'flex';
     }
