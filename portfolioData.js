@@ -22,8 +22,7 @@ const portfolioItems = [
     { type: 'image', category: 'art', src: `${ART_PATH}knight.webp`, title: '6', desc: 'No desc. yet.', software: 'Houdini, Substance Painter' },
     { type: 'image', category: 'art', src: `${ART_PATH}Landscape_1.webp`, title: '6', desc: 'No desc. yet.', software: 'Houdini, Substance Painter' },
 
-    { type: 'image', category: 'art', src: `${ART_PATH}EternalAscent.webp`, title: 'Eternal Ascent', desc: 'my commission for the Eternal Ascent Challenge.', software: 'Cinema 4D, Substance Painter', projectId: 'EA' },
-    { type: 'video', category: 'videos', src: `${VIDEO_PATH}EternalAscent.webm`, title: 'Eternal Ascent', desc: 'Some movement', software: 'Houdini, Redshift',projectId: 'EA'  },
+    { type: 'video', category: 'videos', src: `${VIDEO_PATH}EternalAscent.webm`, title: 'Eternal Ascent', desc: 'my commission for the Eternal Ascent Challenge', software: 'Cinema4D, Redshift, Marvelous Designer, Substance Painter' },
 
     { type: 'image', category: 'art', src: `${ART_PATH}Art_Landscape.webp`, title: '6', desc: 'No desc. yet.', software: 'Houdini, Substance Painter' },
     { type: 'image', category: 'art', src: `${ART_PATH}city 1.webp`, title: '6', desc: 'No desc. yet.', software: 'Houdini, Substance Painter' },
@@ -79,4 +78,5 @@ const portfolioItems = [
     { type: 'video', category: 'vfx', src: `${VFX_PATH}vfx2.webm`, title: 'Water Simulation', desc: 'No desc. yet', software: 'Nuke, Houdini' },
     { type: 'video', category: 'vfx', src: `${VFX_PATH}vfx3.webm`, title: 'Water Simulation', desc: 'No desc. yet', software: 'Nuke, Houdini' },
     { type: 'video', category: 'vfx', src: `${VFX_PATH}vfx4.webm`, title: 'Water Simulation', desc: 'No desc. yet', software: 'Nuke, Houdini' },
+    { type: 'video', category: 'vfx', src: `${VFX_PATH}lalovie.webm`, title: 'La Lovie', desc: 'No desc. yet', software: 'SynthEyes, Houdini, Redshift' },
 ];
