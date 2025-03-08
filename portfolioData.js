@@ -37,8 +37,8 @@ const portfolioItems = [
 
 
     //Scooter
-    { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_1.webp`, title: '6', desc: 'No desc. yet.', software: 'Houdini, Substance Painter',projectId: 'scooter_1' },
     { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_2.webp`, title: '6', desc: 'No desc. yet.', software: 'Houdini, Substance Painter',projectId: 'scooter_1' },
+    { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_1.webp`, title: '6', desc: 'No desc. yet.', software: 'Houdini, Substance Painter',projectId: 'scooter_1' },
     { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_3.webp`, title: '6', desc: 'No desc. yet.', software: 'Houdini, Substance Painter',projectId: 'scooter_1' },
     { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_4.webp`, title: '6', desc: 'No desc. yet.', software: 'Houdini, Substance Painter',projectId: 'scooter_1' },
     { type: 'image', category: 'modeling', src: `${PACKS_PATH}scooter/scooter_5.webp`, title: '6', desc: 'No desc. yet.', software: 'Houdini, Substance Painter',projectId: 'scooter_1' },

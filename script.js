@@ -16,76 +16,43 @@ function shuffleArray(array) {
     return shuffled;
 }
 
-// Перемешиваем portfolioItems сразу при загрузке
-const shuffledPortfolioItems = shuffleArray(portfolioItems);
-
-// Генерация карусели
-const carousel = document.getElementById('carousel');
+// Функция для генерации карусели
 function generateCarousel(items) {
     carousel.innerHTML = '';
     const projectFaces = {}; // Для "лиц" проектов
-    const uniqueItems = []; // Для уникальных работ без projectId
+    const allItems = [];    // Для итогового списка
 
+    // Сначала определяем "лица" проектов из исходного массива portfolioItems
+    portfolioItems.forEach(item => {
+        if (item.projectId && !projectFaces[item.projectId]) {
+            projectFaces[item.projectId] = item; // Фиксируем первую работу как "лицо"
+        }
+    });
+
+    // Теперь добавляем элементы из переданного массива items, но с учётом фиксированных "лиц"
     items.forEach(item => {
         if (item.projectId) {
-            if (!projectFaces[item.projectId]) {
-                projectFaces[item.projectId] = item; // Берем первую работу как лицо проекта
+            // Если это элемент проекта, добавляем только "лицо"
+            if (item === projectFaces[item.projectId]) {
+                allItems.push(item);
             }
         } else {
-            uniqueItems.push(item); // Уникальные работы добавляем напрямую
+            // Уникальные работы добавляем напрямую
+            allItems.push(item);
         }
     });
 
-    // Отображаем "лица" проектов
-    Object.values(projectFaces).forEach(item => {
-        const div = document.createElement('div');
-        div.classList.add('carousel-item', 'has-project');
-        div.setAttribute('data-category', item.category);
-        div.setAttribute('data-project-id', item.projectId);
-        div.setAttribute('data-title', item.title); // Добавляем атрибут для названия
-
-        // Создаём текст для наведения
-        const tooltip = document.createElement('div');
-        tooltip.classList.add('item-tooltip');
-        tooltip.textContent = `${item.title}, ${item.category}`;
-
-        if (item.type === 'image') {
-            const img = document.createElement('img');
-            img.src = item.src;
-            img.alt = item.title;
-            img.loading = 'lazy';
-            div.appendChild(img);
-        } else if (item.type === 'video') {
-            const video = document.createElement('video');
-            video.muted = true;
-            video.controls = true;
-            video.loading = 'lazy';
-            video.playsInline = true;
-            video.autoplay = true;
-            video.loop = true;
-            const source = document.createElement('source');
-            source.src = item.src;
-            source.type = 'video/webm';
-            const fallbackSource = document.createElement('source');
-            fallbackSource.src = item.src.replace('.webm', '.mp4');
-            fallbackSource.type = 'video/mp4';
-            video.appendChild(source);
-            video.appendChild(fallbackSource);
-            div.appendChild(video);
-        }
-
-        div.appendChild(tooltip);
-        carousel.appendChild(div);
-    });
-
-    // Добавляем уникальные работы
-    uniqueItems.forEach(item => {
+    // Отображаем элементы
+    allItems.forEach(item => {
         const div = document.createElement('div');
         div.classList.add('carousel-item');
+        if (item.projectId) {
+            div.classList.add('has-project');
+            div.setAttribute('data-project-id', item.projectId);
+        }
         div.setAttribute('data-category', item.category);
-        div.setAttribute('data-title', item.title); // Добавляем атрибут для названия
+        div.setAttribute('data-title', item.title);
 
-        // Создаём текст для наведения
         const tooltip = document.createElement('div');
         tooltip.classList.add('item-tooltip');
         tooltip.textContent = `${item.title}, ${item.category}`;
@@ -99,7 +66,7 @@ function generateCarousel(items) {
         } else if (item.type === 'video') {
             const video = document.createElement('video');
             video.muted = true;
-            video.controls = true;
+            video.controls = false;
             video.loading = 'lazy';
             video.playsInline = true;
             video.autoplay = true;
@@ -119,7 +86,7 @@ function generateCarousel(items) {
         carousel.appendChild(div);
     });
 
-    // Обработчик для показа/скрытия текста при наведении
+    // Обработчики для тултипов (без изменений)
     const carouselItems = document.querySelectorAll('.carousel-item');
     carouselItems.forEach(item => {
         item.addEventListener('mouseenter', () => {
@@ -131,14 +98,13 @@ function generateCarousel(items) {
             if (tooltip) tooltip.style.opacity = '0';
         });
 
-        // Для мобильных: показываем tooltip при длительном тапе (hold), но не блокируем клик
         let touchTimer = null;
         item.addEventListener('touchstart', (e) => {
             const tooltip = item.querySelector('.item-tooltip');
             if (tooltip) {
                 touchTimer = setTimeout(() => {
                     tooltip.style.opacity = '1';
-                }, 500); // Показать через 0.5 секунды удержания
+                }, 500);
             }
         });
         item.addEventListener('touchend', () => {
@@ -158,11 +124,30 @@ function generateCarousel(items) {
     });
 }
 
-// Инициализация карусели с перемешанными работами
+// Инициализация карусели
+const shuffledPortfolioItems = shuffleArray(portfolioItems);
 generateCarousel(shuffledPortfolioItems);
 
 // Фильтрация категорий
 const categoryButtons = document.querySelectorAll('.category-btn');
+categoryButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        categoryButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const category = button.getAttribute('data-category');
+        let filteredItems;
+
+        if (category === 'all') {
+            filteredItems = shuffleArray(portfolioItems); // Перемешиваем все работы
+        } else {
+            filteredItems = portfolioItems.filter(item => item.category === category);
+        }
+
+        generateCarousel(filteredItems);
+    });
+});
 categoryButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         e.preventDefault(); // Предотвращаем стандартное поведение
@@ -246,6 +231,7 @@ carousel.addEventListener('click', (e) => {
                 video.controls = true;
                 video.muted = true;
                 video.playsInline = true;
+                video.autoplay = true;
                 const source = document.createElement('source');
                 source.src = p.src;
                 source.type = 'video/webm';
@@ -274,6 +260,7 @@ carousel.addEventListener('click', (e) => {
             video.controls = true;
             video.muted = true;
             video.playsInline = true;
+            video.autoplay = true;
             const source = document.createElement('source');
             source.src = portfolioItem.src;
             source.type = 'video/webm';
@@ -314,86 +301,6 @@ modal.addEventListener('click', (e) => {
     }
 });
 
-// Three.js
-let model = null; // Глобальная переменная для модели
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('modelCanvas'), alpha: true });
-
-renderer.setSize(600, 400);
-scene.background = null;
-
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(5, 5, 5).normalize();
-scene.add(directionalLight);
-
-const loader = new THREE.GLTFLoader();
-loader.load(
-    'models/main.glb', // Укажи реальный путь к файлу (замени на корректный)
-    (gltf) => {
-        model = gltf.scene;
-        scene.add(model);
-        console.log('Модель успешно загружена:', model);
-
-        const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 5 / maxDim;
-        model.scale.set(scale, scale, scale);
-        model.position.sub(center.multiplyScalar(scale));
-        model.position.x += 2; // Смещение вправо
-        model.rotation.y = Math.PI / 4; // Начальный угол
-
-        // Настраиваем цветовые пространства для текстур
-        model.traverse((child) => {
-            if (child.isMesh && child.material) {
-                const material = child.material;
-                if (material.map) material.map.colorSpace = THREE.SRGBColorSpace;
-                if (material.normalMap) material.normalMap.colorSpace = THREE.NoColorSpace;
-                if (material.roughnessMap) material.roughnessMap.colorSpace = THREE.NoColorSpace;
-                if (material.metalnessMap) material.metalnessMap.colorSpace = THREE.NoColorSpace;
-                if (material.emissiveMap) material.emissiveMap.colorSpace = THREE.SRGBColorSpace;
-            }
-        });
-
-        camera.position.z = maxDim * 2;
-    },
-    (progress) => {
-        console.log('Прогресс загрузки модели:', progress.loaded / progress.total * 100 + '%');
-    },
-    (error) => {
-        console.error('Ошибка загрузки модели:', error);
-        // Если модель не загрузилась, показываем заглушку
-        const canvas = document.getElementById('modelCanvas');
-        if (canvas) {
-            canvas.style.background = '#333'; // Серый фон как заглушка
-            canvas.textContent = 'Модель не загружена. Проверь путь или файл.';
-        }
-    }
-);
-
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
-controls.enableZoom = false;
-controls.enablePan = false;
-controls.enableRotate = false;
-
-function animate() {
-    requestAnimationFrame(animate);
-    controls.update();
-    
-    if (model) {
-        model.rotation.y += 0.01; // Вращение модели
-    }
-    
-    renderer.render(scene, camera);
-}
-animate();
 
 window.addEventListener('resize', () => {
     const width = document.querySelector('.hero-model').clientWidth;
@@ -440,3 +347,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+

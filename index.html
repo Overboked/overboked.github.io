@@ -9,6 +9,7 @@
     <link rel="icon" type="image/png" href="images/icons/ico.png">
 </head>
 <body>
+    <canvas id="particlesCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></canvas>
 
     <div class="sidebar" id="sidebar">
         <ul>
@@ -46,7 +47,7 @@
                     <p>My work: <a href="#works" class="hero-link" id="scrollToWorks">Click</a></p>
                 </div>
                 <div class="hero-model">
-                    <canvas id="modelCanvas11111111"></canvas>
+                    <canvas id="modelCanvas1"></canvas>
                 </div>
             </div>
         </section>
@@ -105,5 +106,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
     <script src="portfolioData.js"></script>
     <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+    <script src="particles.js"></script>
 </body>
 </html>
