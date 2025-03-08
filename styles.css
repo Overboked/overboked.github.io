@@ -356,6 +356,7 @@ main {
     max-width: 100vw;
     overflow-x: hidden;
     min-height: 1200px; /* Фиксированная минимальная высота, чтобы вместить все работы */
+    z-index: 200;
 }
 
 .carousel-item {
@@ -368,6 +369,7 @@ main {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeIn 0.5s ease-out forwards;
+    z-index: 200;
 }
 
 .carousel-item.has-project {
@@ -397,10 +399,12 @@ main {
     height: auto;
     object-fit: contain;
     transition: transform 0.3s;
+    z-index: 200;
 }
 
 .carousel-item:hover img, .carousel-item:hover video {
     transform: scale(1.05);
+    z-index: 200;
 }
 
 /* Модальное окно */
@@ -569,6 +573,7 @@ main {
     }
     .carousel-item {
         width: 160px;
+        z-index: 200;
     }
 }
 
@@ -578,6 +583,7 @@ main {
     }
     .carousel-item {
         width: 180px;
+        z-index: 200;
     }
 }
 
@@ -862,4 +868,70 @@ main {
     .modal-image-text .modal-text {
         width: 100%;
     }
+}
+.switch-container {
+    position: fixed;
+    top: 70px;
+    right: 1px;
+    z-index: 1001; /* Выше всех элементов, включая частицы */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-size: 10px;
+}
+
+/* Стиль переключателя */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #fff;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #ffcc00; /* Цвет при включении */
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px); /* Сдвиг ползунка */
+}
+
+/* Анимация при переключении */
+.slider {
+    background: linear-gradient(135deg, #2e3033, #000000); /* Фон в выключенном состоянии */
+}
+
+input:checked + .slider {
+    background: linear-gradient(135deg, #ffcc00, #e6b800); /* Градиент при включении */
 }

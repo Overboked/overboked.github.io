@@ -12,9 +12,13 @@ const glowTexture = textureLoader.load('images/particle.png', () => {
     console.error('Ошибка загрузки текстуры:', error);
 });
 
-const particleCount = 500;
+const particleCount = 5000;
 const particles = []; // Массив для хранения спрайтов
 const velocities = new Float32Array(particleCount * 3);
+
+
+let particlesVisible = true;
+
 
 for (let i = 0; i < particleCount; i++) {
     // Генерация случайного цвета для каждой частицы
@@ -51,7 +55,7 @@ for (let i = 0; i < particleCount; i++) {
     particles.push(sprite);
 }
 
-particleCamera.position.z = 300;
+particleCamera.position.z = 500;
 
 const simplex = new SimplexNoise();
 let time = 0;
@@ -101,6 +105,14 @@ function animateParticles() {
     particleRenderer.render(particleScene, particleCamera);
 }
 animateParticles();
+
+// Обработчик переключателя
+document.getElementById('toggleParticles').addEventListener('change', (event) => {
+    particlesVisible = event.target.checked;
+    particles.forEach(particle => {
+        particle.visible = particlesVisible; // Включаем/выключаем видимость
+    });
+});
 
 window.addEventListener('resize', () => {
     particleCamera.aspect = window.innerWidth / window.innerHeight;
