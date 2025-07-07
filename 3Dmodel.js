@@ -67,6 +67,7 @@ let targetRotationY = 0;
 // Загрузка модели
 let model;
 const loader = new THREE.GLTFLoader();
+let modelLoadedAndRendered = false;
 
 // Уведомляем прелоадер о начале загрузки модели
 if (window.preloaderManager) {
@@ -100,11 +101,6 @@ loader.load(
 
         modelScene.add(model);
         console.log('Модель загружена:', model);
-
-        // Уведомляем прелоадер о завершении загрузки модели
-        if (window.preloaderManager) {
-            window.preloaderManager.markResourceLoaded('models/main.glb');
-        }
 
         // === Смена эмиссии материала при скролле ===
         function lerpColor(a, b, t) {
@@ -187,6 +183,11 @@ function animateModel() {
         model.rotation.x += (targetRotationX - model.rotation.x) * 0.05;
         model.rotation.y += 0.003;
         model.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+        // После первого успешного рендера модели уведомляем прелоадер
+        if (!modelLoadedAndRendered && window.preloaderManager) {
+            window.preloaderManager.markResourceLoaded('models/main.glb');
+            modelLoadedAndRendered = true;
+        }
     }
     pointLight1.intensity = 0.5 + Math.sin(Date.now() * 0.002) * 0.2;
     pointLight2.intensity = 0.3 + Math.cos(Date.now() * 0.003) * 0.1;
