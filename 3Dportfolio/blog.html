@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIL Workshop - BLOG</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" type="image/png" href="images/icons/ico.png">
+</head>
+<body>
+    <div class="blurred-bar">
+        <div class="social-icons">
+            <a href="https://instagram.com/iilworkshop" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com/in/iilworkshop" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://youtube.com/@iilworkshop" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+    <div class="burger" id="burger"><i class="fas fa-bars"></i></div>
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="index.html#home">MAIN</a></li>
+            <li><a href="index.html#services">WORKS</a></li>
+            <li><a href="index.html#about">ABOUT</a></li>
+            <li><a href="index.html#contact">CONTACT</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+        </ul>
+    </div>
+    <section id="blog" class="section blog">
+        <div class="section-content">
+            <h1>BLOG</h1>
+            <div class="blog-grid" id="blogGrid"></div>
+        </div>
+    </section>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">X</span>
+            <h2 id="modalTitle"></h2>
+            <div id="modalDesc"></div>
+            <p id="modalSoftware"></p>
+        </div>
+    </div>
+    <script src="blogData.js"></script>
+    <script src="script-blog.js"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIL Workshop</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="images/icons/ico.png">
+</head>
+<body>
+    <!-- Прелоадер -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-content">
+            <div class="preloader-logo">
+                <h1>IIL</h1>
+                <div class="preloader-subtitle">WORKSHOP</div>
+            </div>
+            <div class="preloader-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Loading... 0%</div>
+            </div>
+            <div class="preloader-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="particlesCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; pointer-events: none;"></canvas>
+
+    <div class="switch-container">
+        <label class="switch">
+            <input type="checkbox" id="toggleParticles" checked>
+            <span class="slider"></span>
+        </label>
+        <span>Disable particles</span>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#home">MAIN</a></li>
+            <li><a href="#works">WORKS</a></li>
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#contact">CONTACT</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+        </ul>
+    </div>
+
+    <div class="burger" id="burger">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <header class="blurred-bar">
+        <div class="social-icons">
+            <a href="https://www.instagram.com/overboked/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/overboked/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.youtube.com/@Overboked" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://t.me/Overboked" target="_blank"><i class="fab fa-telegram"></i></a>
+            <a href="https://www.twitch.tv/dekobrevo" target="_blank"><i class="fab fa-twitch"></i></a>
+
+        </div>
+    </header>
+
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-model">
+                <canvas id="modelCanvas1"></canvas>
+            </div>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>IIL WORKSHOP</h1>
+                    <p>Hello! I'm a 3D artist with over 5 years of experience creating unique works in 3D art, interiors, video, and VFX. I use Cinema 4D, Houdini, and other tools to bring ideas to life.</p>
+                    <p class="hero-quote">"The world is not what exists, but what we create to survive in it." — Pathologic 2</p>
+                    <p>My work: <a href="#works" class="hero-link" id="scrollToWorks">Click</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Категории и карусель -->
+        <section id="works">
+            <div class="categories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="art">Art</button>
+                <button class="category-btn" data-category="archviz">Archviz</button>
+                <button class="category-btn" data-category="videos">Animations</button>
+                <button class="category-btn" data-category="vfx">VFX</button>
+                <button class="category-btn" data-category="modeling">Modeling</button>
+            </div>
+            <div class="carousel" id="carousel"></div>
+        </section>
+    </main>
+
+    <section id="about" class="section about">
+        <div class="section-content">
+            <h2>About</h2>
+            <p>I am a 3D artist with over 5 years of experience creating unique works in 3D art, archviz, animations, and VFX. My passion is bringing ideas to life through digital worlds, using tools such as Blender, Maya, ZBrush, and Houdini. Each project for me is a story that I tell through visual imagery.</p>
+            <p>I work on projects for games, films, architecture, and advertising, always striving for detail and innovation. In my free time, I dedicate myself to learning new technologies and experimenting with 3D animation.</p>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <div class="section-content">
+            <h2>Contact</h2>
+            <p>Contact me for collaboration or inquiries:</p>
+            <p>Email: <a href="mailto:Overboked@gmail.com" class="contact-link">Overboked@gmail.com</a></p>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/overboked" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/overboked" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://t.me/Overboked" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальное окно -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">X</span>
+            <img src="" alt="Modal Image" id="modalImage" style="display: none;">
+            <video id="modalVideo" controls style="display: none;"></video>
+            <h3 id="modalTitle"></h3>
+            <p id="modalDesc"></p>
+            <p id="modalSoftware"></p>
+        </div>
+    </div>
+
+    <!-- Contact form EmailJS -->
+    <div class="contact-form-wrapper">
+      <h3 class="contact-form-title">Direct contact form</h3>
+      <p class="contact-form-desc">You can send me a message directly using this form. I will receive your message by email and reply as soon as possible.</p>
+      <form id="contact-form" class="contact-form">
+        <input type="text" name="user_name" placeholder="Your name" required>
+        <input type="email" name="user_email" placeholder="Email" required>
+        <textarea name="message" placeholder="Message" required></textarea>
+        <button type="submit">Send</button>
+        <div id="form-status"></div>
+      </form>
+    </div>
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+      // Replace with your EmailJS keys from your dashboard
+      emailjs.init('1bJqtdqSpEAI40m79');
+      document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        emailjs.sendForm('service_tjst1fn', 'template_qrp49mf', this)
+          .then(() => {
+            document.getElementById('form-status').textContent = 'Message sent!';
+            this.reset();
+          }, (err) => {
+            document.getElementById('form-status').textContent = 'Sending failed. Please try again later.';
+          });
+      });
+    </script>
+
+    <!-- Подключение скриптов -->
+    <script src="preloader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
+    <script src="portfolioData.js"></script>
+    <script src="3Dmodel.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+    <script src="particles.js"></script>
+</body>
+</html>
